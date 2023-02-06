@@ -1,0 +1,25 @@
+,ID,SMILES,Assay,Assay_Parameter,Operator,Value,Units
+0,5152658,CCn1c(C)nc2cc(S(=O)(=O)C(F)(F)F)ccc21,Activity,EC50,>,10000.0,nM
+1,6537346,Cc1ccc(S(=O)(=O)C(F)(F)F)cc1NC(=O)c1cccnc1,Activity,EC50,>=,10000.0,nM
+2,7728191,CC(=O)Nc1cc(S(=O)(=O)C(F)(F)F)ccc1C,Activity,EC50,<,10000.0,nM
+3,7933718,O=S(=O)(Nc1cccc(Cl)c1N1CCOCC1)c1ccc(Br)cc1,Activity,EC50,=,10000.0,nM
+4,AW01044SC,CC(C)(C)OC(=O)N1CCCN(S(=O)(=O)c2ccc(N3C(=O)CC4(CCCC4)C3=O)c(Cl)c2)CC1,Activity,EC50,=,10000.0,nM
+5,AW01156SC,CC(C)(C)OC(=O)N1CCN(S(=O)(=O)c2ccc(N3C(=O)CC4(CCCC4)C3=O)c(Cl)c2)CC1,Activity,EC50,=,10000.0,nM
+6,F6246-4124,Cn1nc(C2CCN(CC(=O)OC(C)(C)C)CC2)n(C2CC2)c1=O,Activity,EC50,=,10000.0,nM
+7,F6573-6515,CC(C)(C)OC(=O)N1CCC(CC(=O)N2CCC3(CC2)CC3(F)F)CC1,Activity,EC50,<=,10000.0,nM
+8,HTS02030SC,Cn1nc(-c2ccc(S(=O)(=O)NCC3CCN(C(=O)OC(C)(C)C)CC3)s2)cc1C(F)(F)F,Activity,EC50,=,10000.0,nM
+9,HTS07075SC,O=S(=O)(Nc1ccccc1N1CCOCC1)c1ccc2c(c1)OCC2,Activity,EC50,=,10000.0,nM
+10,HTS07077SC,Cc1ccc(S(=O)(=O)Nc2ccccc2N2CCOCC2)cc1,Activity,EC50,=,10000.0,nM
+11,HTS07222SC,Cn1nc(-c2ccc(S(=O)(=O)Nc3ccccc3N3CCOCC3)s2)cc1C(F)(F)F,Activity,EC50,=,10000.0,nM
+12,HTS11118SC,[K+].[I-],Activity,EC50,=,10000.0,nM
+13,NP-019416,O=C([O-])c1cc(=O)[nH]c(=O)[nH]1.O=C([O-])c1cc(=O)[nH]c(=O)[nH]1.[Zn+2],Activity,EC50,=,10000.0,nM
+14,SEW03441SC,CC(C)C1(NC(=O)C2CC3c4cccc5[nH]cc(c45)CC3N(C)C2)OC2(O)C3CCCN3C(=O)C(Cc3ccccc3)N2C1=O.CC(C)C1C(=O)N2CCCC2C2(O)OC(NC(=O)C3CC4c5cccc6[nH]cc(c56)CC4N(C)C3)(C(C)C)C(=O)N12.CC(C)CC1C(=O)N2CCCC2C2(O)OC(NC(=O)C3CC4c5cccc6[nH]cc(c56)CC4N(C)C3)(C(C)C)C(=O)N12.CCC(C)C1C(=O)N2CCCC2C2(O)OC(NC(=O)C3CC4c5cccc6[nH]cc(c56)CC4N(C)C3)(C(C)C)C(=O)N12,Activity,EC50,=,1.0,nM
+15,SPB06551SC,UO,Activity,EC50,=,2.0,nM
+16,WAY-390079,CCn1c(/C=C/c2ccc3c(c2)OCO3)nc2cc(S(=O)(=O)C(F)(F)F)ccc21,Activity,EC50,=,1.0,nM
+17,WAY-390079,CCn1c(/C=C/c2ccc3c(c2)OCO3)nc2cc(S(=O)(=O)C(F)(F)F)ccc21,Activity,EC50,=,2.0,nM
+18,FDA 733030-01-8,Cl.OCC1OC(CC1O)N2C=C(C(=O)NC2=O)C(F)(F)F.OCC3OC(CC3O)N4C=C(C(=O)NC4=O)C(F)(F)F.ClC5=C(CN6CCCC6=N)NC(=O)NC5=O,Activity,EC50,=,3.0,nM
+19,C720-0683ChemDiv,c1cccn(c12)c(=O)c(c(n2)O)C(=O)NCCCN(CC)c(cc3C)ccc3,Activity,EC50,=,-1,nM
+20,STK996000Vitas-M,c1cc(O)ccc1C(=O)OCC[NH+]2CCCCC2,Activity,EC50,=,-2,nM
+21,D003 HIT211249220,Cn1ncnc1N.[O-][Cl+3]([O-])([O-])O,Activity,EC50,=,0.0,nM
+22,D003 HIT211249241,Cc1nc(N)n(C)n1.[O-][Cl+3]([O-])([O-])O,Activity,EC50,=,0.0,nM
+23,D003 HIT212739451,C[N+](C)(C)CCO.C[N+](C)(C)CCO.O=S(=O)([O-])[O-],Activity,EC50,=,0.0,nM
