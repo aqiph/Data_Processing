@@ -9,7 +9,6 @@ Created on Thu Aug 12 10:05:14 2021
 import os, warnings
 import pandas as pd
 import numpy as np
-from rdkit import Chem
 from rdkit.Chem.SaltRemover import SaltRemover
 from chembl_structure_pipeline import *
 from chembl_structure_pipeline.checker import *
