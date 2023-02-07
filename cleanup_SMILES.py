@@ -18,8 +18,8 @@ from chembl_structure_pipeline.checker import *
 def cleanup_single_smiles_by_CSP(smiles, cleanup_chirality = False):
     """
     clean up a single smiles with chembl_structure_pipeline
-    :para smiles: str, smiles
-    :para cleanup_chirality: bool, whether or not to remove chirality
+    :param smiles: str, smiles
+    :param cleanup_chirality: bool, whether or not to remove chirality
     :return: cleaned smiles by chembl_structure_pipeline, flag to indicate if this smiles is valid
     """
     # True if the input smiles can be properly converted, False if there is an error
@@ -51,9 +51,9 @@ def cleanup_single_smiles_by_CSP(smiles, cleanup_chirality = False):
 def cleanup_library_by_CSP(df, smiles_column_num, cleanup_chirality = False):
     """
     clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES', remove chirality in SMILES (optional)
-    :para df: pandas.DataFrame object, input dataframe
-    :para smiles_column_num: int, the number of the smiles column
-    :para cleanup_chirality: bool, whether or not to remove chirality
+    :param df: pandas.DataFrame object, input dataframe
+    :param smiles_column_num: int, the number of the smiles column
+    :param cleanup_chirality: bool, whether or not to remove chirality
     """
     # add 'Cleaned_SMILES' to columns
     columns = df.columns.tolist()    
@@ -81,9 +81,9 @@ def cleanup_library_by_CSP(df, smiles_column_num, cleanup_chirality = False):
 def cleanup_disconnection_in_single_smiles(smiles, saltRemover, process_disconnection_method):
     """
     record and process a single disconnected SMILES (containing '.', i.e., polymer, salt, solvent)
-    :para smiles: str, SMILES
-    :para saltRemover: rdkit SaltRemover object
-    :para process_disconnection_method: str, method for processing other disconnected SMILES,
+    :param smiles: str, SMILES
+    :param saltRemover: rdkit SaltRemover object
+    :param process_disconnection_method: str, method for processing other disconnected SMILES,
     if process_disconnection_method == 'keep_longest', keep the longest part in SMILES
     if process_disconnection_method == 'keep_most_atoms', keep the part with the most atoms
     """
@@ -117,9 +117,9 @@ def cleanup_disconnection_in_single_smiles(smiles, saltRemover, process_disconne
 def cleanup_disconnection_in_library(df, process_disconnection = False, process_disconnection_method = None):
     """
     record and process disconnected SMILES (containing '.', i.e., polymer, salt, solvent) (optional)
-    :para df: pandas.DataFrame object, input dataframe
-    :para process_disconnection: bool, whether or not to process disconnected SMILES
-    :para process_disconnection_method: str, method for processing other disconnected SMILES,
+    :param df: pandas.DataFrame object, input dataframe
+    :param process_disconnection: bool, whether or not to process disconnected SMILES
+    :param process_disconnection_method: str, method for processing other disconnected SMILES,
     if process_disconnection_method == 'keep_longest', keep the longest part in SMILES
     if process_disconnection_method == 'keep_most_atoms', keep the part with the most atoms
     """
@@ -154,11 +154,11 @@ def cleanup_smiles(input_file, smiles_column_num, cleanup_chirality = False, pro
     """
     clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES', remove chirality in SMILES (optional),
     record and process disconnected SMILES (containing '.', i.e., polymer, salt, solvent) (optional)
-    :para input_file: str, the filename of the input file
-    :para smiles_column_num: int, the number of the smiles column
-    :para cleanup_chirality: bool, whether or not to remove chirality
-    :para process_disconnection: bool, whether or not to process disconnected SMILES
-    :para process_disconnection_method: str, method for processing other disconnected SMILES,
+    :param input_file: str, the filename of the input file
+    :param smiles_column_num: int, the number of the smiles column
+    :param cleanup_chirality: bool, whether or not to remove chirality
+    :param process_disconnection: bool, whether or not to process disconnected SMILES
+    :param process_disconnection_method: str, method for processing other disconnected SMILES,
     if process_disconnection_method == 'keep_longest', keep the longest part in SMILES
     if process_disconnection_method == 'keep_most_atoms', keep the part with the most atoms
     """

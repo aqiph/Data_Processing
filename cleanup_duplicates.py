@@ -14,11 +14,11 @@ import pandas as pd
 def duplicate_analysis(df, output_file, by_column = ['Cleaned_SMILES'], id_column_name = 'ID', smiles_column_name = 'SMILES'):
     """
     analyze the duplicates in df
-    :para df: pandas.DataFrame object, input dataframe
-    :para output_file: str, output file path without extension for analysis report, folder/filename_without_extension
-    :para by_column: list of str, list of column names according to which to group the input file
-    :para id_column_name: str, the name of the ID column
-    :para smiles_column_name: str, the name of the SMILES column
+    :param df: pandas.DataFrame object, input dataframe
+    :param output_file: str, output file path without extension for analysis report, folder/filename_without_extension
+    :param by_column: list of str, list of column names according to which to group the input file
+    :param id_column_name: str, the name of the ID column
+    :param smiles_column_name: str, the name of the SMILES column
     """
     # output file
     output_file = '{}_duplicates.txt'.format(os.path.splitext(output_file)[0])
@@ -67,11 +67,11 @@ def duplicate_analysis(df, output_file, by_column = ['Cleaned_SMILES'], id_colum
 def remove_duplicates(input_file, by_column = ['Cleaned_SMILES'], keep = 'first', id_column_name = 'ID', smiles_column_name = 'SMILES'):
     """
     clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES'
-    :para input_file: str, the filename of the input file
-    :para by_column: list of str, list of column names according to which to group the input file
-    :para keep: str, how to keep data if there are duplicates
-    :para id_column_name: str, the name of the ID column
-    :para smiles_column_name: str, the name of the SMILES column
+    :param input_file: str, the filename of the input file
+    :param by_column: list of str, list of column names according to which to group the input file
+    :param keep: str, how to keep data if there are duplicates
+    :param id_column_name: str, the name of the ID column
+    :param smiles_column_name: str, the name of the SMILES column
     """
     # output file path without extension
     output_file, fmt = os.path.splitext(os.path.abspath(input_file))

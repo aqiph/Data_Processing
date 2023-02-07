@@ -15,7 +15,7 @@ import numpy as np
 def read_input(input_file):
     """
     read input file
-    :para input_file: str, the filename of the original input file
+    :param input_file: str, the filename of the original input file
     """
     folder, basename = os.path.split(os.path.abspath(input_file))
     output_file, fmt = os.path.splitext(basename) # basename without extension
@@ -34,11 +34,11 @@ def read_input(input_file):
 def operate_ID_SMILES_Value(df, id_column_name = None, smiles_column_name = 'SMILES', value_column_name = None, dropna_column_names = ['SMILES']):
     """
     rename or add ID, SMILES and Value columns
-    :para df: pandas.DataFrame object, input dataframe
-    :para id_column_name: str or None, the name of the ID column; if None, generate ints as new IDs.
-    :para smiles_column_name: str, the name of the SMILES column
-    :para value_column_name: str or None, the name of the Value column; if None, generate an empty column
-    :para dropna_column_names: list of str, the column names depend on which to drop nan value
+    :param df: pandas.DataFrame object, input dataframe
+    :param id_column_name: str or None, the name of the ID column; if None, generate ints as new IDs.
+    :param smiles_column_name: str, the name of the SMILES column
+    :param value_column_name: str or None, the name of the Value column; if None, generate an empty column
+    :param dropna_column_names: list of str, the column names depend on which to drop nan value
     """    
     columns = df.columns.tolist()
     
@@ -76,11 +76,11 @@ def operate_ID_SMILES_Value(df, id_column_name = None, smiles_column_name = 'SMI
 def operate_Assay_AssayParameter(df, assay_column_name = None, assay = '', assayParameter_column_name = None, assayParameter = ''):
     """
     rename or add Assay and Assay_Parameter columns
-    :para df: pandas.DataFrame object, input dataframe
-    :para assay_column_name: str or None, the name of the Assay column; if None, generate Assay column according to 'assay'
-    :para assay: str, assay name in the Assay column
-    :para assayParameter_column_name: str or None, the name of the Assay_Parameter column; if None, generate Assay_Parameter column according to 'assayParameter'
-    :para assayParameter: str, assay parameter name in the Assay_Parameter column
+    :param df: pandas.DataFrame object, input dataframe
+    :param assay_column_name: str or None, the name of the Assay column; if None, generate Assay column according to 'assay'
+    :param assay: str, assay name in the Assay column
+    :param assayParameter_column_name: str or None, the name of the Assay_Parameter column; if None, generate Assay_Parameter column according to 'assayParameter'
+    :param assayParameter: str, assay parameter name in the Assay_Parameter column
     """
     columns = df.columns.tolist()
     
@@ -110,12 +110,12 @@ def operate_Assay_AssayParameter(df, assay_column_name = None, assay = '', assay
 def operate_Operator_Value_Units(df, operator_column_name = None, operator = '=', value_column_name = 'Value', unit_column_name = None, unit = ''):
     """
     rename or add Operator and Units columns
-    :para df: pandas.DataFrame object, input dataframe
-    :para operator_column_name: str or None, the name of the Operator column; if None, generate Operator column according to operator
-    :para operator: str, operator name in the Operator column
-    :para value_column_name: str, the name of the Value column
-    :para unit_column_name: str or None, the name of the Units column; if None, generate Units column according to unit
-    :para unit: str, unit name in the Units column
+    :param df: pandas.DataFrame object, input dataframe
+    :param operator_column_name: str or None, the name of the Operator column; if None, generate Operator column according to operator
+    :param operator: str, operator name in the Operator column
+    :param value_column_name: str, the name of the Value column
+    :param unit_column_name: str or None, the name of the Units column; if None, generate Units column according to unit
+    :param unit: str, unit name in the Units column
     """
     columns = df.columns.tolist()
     
@@ -160,7 +160,7 @@ def split_operator_value(raw):
     """
     Helper function for cleanup_format
     split operator and value
-    :para raw: str, original value
+    :param raw: str, original value
     :return: list, [operator, value]
     """
     raw = str(raw).strip()
@@ -181,9 +181,9 @@ def split_operator_value(raw):
 def write_output(df, output_file, use_standard_format=False):
     """
     write to output file
-    :para df: pandas.DataFrame object, input dataframe
-    :para output_file: str, output file path without extension
-    :para use_standard_format: bool, whether or not to change columns to standard format
+    :param df: pandas.DataFrame object, input dataframe
+    :param output_file: str, output file path without extension
+    :param use_standard_format: bool, whether or not to change columns to standard format
     """
     if use_standard_format:
         df = pd.DataFrame(df, columns = ['ID', 'SMILES', 'Assay', 'Assay_Parameter', 'Operator', 'Value', 'Units'])

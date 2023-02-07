@@ -17,12 +17,12 @@ from rdkit import Chem
 def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', output_file=None, start_id = 0):
     """
     read input .sdf file, convert to .csv file
-    :para input_file: str, the filename of the input .sdf file
-    :para ID_name: str, name of ID in .sdf file
-    :para SMILES_name: str, name of SMILES in .sdf file
-    :para library_name: str, library name
-    :para output_file: str, the filename of the output .csv file
-    :para start_id: int, if ID is not specified in .sdf file, ID is generated starting with start_id
+    :param input_file: str, the filename of the input .sdf file
+    :param ID_name: str, name of ID in .sdf file
+    :param SMILES_name: str, name of SMILES in .sdf file
+    :param library_name: str, library name
+    :param output_file: str, the filename of the output .csv file
+    :param start_id: int, if ID is not specified in .sdf file, ID is generated starting with start_id
     """
     # output name
     folder, basename = os.path.split(os.path.abspath(input_file))
@@ -77,9 +77,9 @@ def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', 
 def combine_files(input_file_list, columns = None, output_file = None):
     """
     combine multiple data sets
-    :para input_file_list: list of strs, the file names of the original input file 
-    :para columns: columns in the output_file
-    :para output_file: str or None, pre-defined output file name
+    :param input_file_list: list of strs, the file names of the original input file
+    :param columns: columns in the output_file
+    :param output_file: str or None, pre-defined output file name
     """
     # output name
     folder, basename = os.path.split(os.path.abspath(input_file_list[0]))
@@ -111,9 +111,9 @@ def combine_files(input_file_list, columns = None, output_file = None):
 def split_file(input_file, splitting_idx, output_file = None):
     """
     split input_file into two files
-    :para input_file: str, file path of the input file
-    :para splitting_idx: int, the number of rows in the first file
-    :para output_file: str or None, pre-defined output file name
+    :param input_file: str, file path of the input file
+    :param splitting_idx: int, the number of rows in the first file
+    :param output_file: str or None, pre-defined output file name
     """
     # output name
     folder, basename = os.path.split(os.path.abspath(input_file))
@@ -144,10 +144,10 @@ def split_file(input_file, splitting_idx, output_file = None):
 def get_subset(input_file, num_cpd, method = 'random', output_file = None):
     """
     get subset
-    :para input_file: str, file path of the input file
-    :para num_cpd: int, the number of compounds 
-    :para method: str, the way to select subset: random: randomly selected; an int: the first id of continuous rows
-    :para output_file: str or None, pre-defined output file name
+    :param input_file: str, file path of the input file
+    :param num_cpd: int, the number of compounds
+    :param method: str, the way to select subset: random: randomly selected; an int: the first id of continuous rows
+    :param output_file: str or None, pre-defined output file name
     """
     # output name
     folder, basename = os.path.split(os.path.abspath(input_file))

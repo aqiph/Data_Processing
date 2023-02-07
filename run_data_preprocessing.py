@@ -24,7 +24,7 @@ from util import sdf_to_csv, combine_files, split_file, get_subset
 def run_cleanup_format(input_file):
     """
     call cleanup_format to clean up format
-    :para input_file: str, the name of the input file
+    :param input_file: str, the name of the input file
     """
     # file 
     df, folder, output_file = read_input(input_file)    
@@ -57,7 +57,7 @@ def run_cleanup_format(input_file):
 def run_cleanup_SMILES(input_file):
     """
     call cleanup_SMILES to clean up SMILES
-    :para input_file: str, the name of the input file
+    :param input_file: str, the name of the input file
     """
     smiles_column_num = 1
     cleanup_chirality = True
@@ -70,7 +70,7 @@ def run_cleanup_SMILES(input_file):
 def run_cleanup_duplicates(input_file):
     """
     call cleanup_duplicates to clean up duplicates
-    :para input_file: str, the name of the input file
+    :param input_file: str, the name of the input file
     """
     by_column = ['Cleaned_SMILES']
     
@@ -80,7 +80,7 @@ def run_cleanup_duplicates(input_file):
 def run_add_labels(input_file):
     """
     call add labels
-    :para input_file: str, the name of the input file
+    :param input_file: str, the name of the input file
     """
     task = 'classification'
 
@@ -97,7 +97,7 @@ def run_add_labels(input_file):
 def run_analysis(input_file, task = ''):
     """
     call analysis
-    :para input_file: str, the name of the input file
+    :param input_file: str, the name of the input file
     """
     # analyze assay
     if task == 'analyze_assay':
@@ -115,7 +115,7 @@ def run_analysis(input_file, task = ''):
 def run_util(input_file, task = ''):
     """
     call util
-    :para input_file: str, the name of the input file
+    :param input_file: str, the name of the input file
     """
     if task == 'sdf_to_csv':
         ID_name = 'hit_id'
