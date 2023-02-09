@@ -180,19 +180,19 @@ def get_subset(input_file, num_cpd, method = 'random', output_file = None):
 if __name__ == '__main__':
     
     ### Change other format to .csv ###
-    input_file = 'tests/sdf_to_csv.sdf'
-    ID_name = 'hit_id'
-    SMILES_name = 'canonical_smiles'
-    library_name = 'test'
-    output_file = 'output.csv'
-    num = sdf_to_csv(input_file, ID_name, SMILES_name, library_name, output_file, start_id=1)
-    print(num)
+    # input_file = 'tests/sdf_to_csv.sdf'
+    # ID_name = 'hit_id'
+    # SMILES_name = 'canonical_smiles'
+    # library_name = 'test'
+    # output_file = 'output.csv'
+    # num = sdf_to_csv(input_file, ID_name, SMILES_name, library_name, output_file, start_id=1)
+    # print(num)
 
 
     ### Combination ###
-    # input_file_list = ['tests/example.csv', 'tests/example2.csv', 'tests/example3.csv']
-    # output_file = 'combination.csv'
-    # combine_files(input_file_list, output_file = output_file)
+    input_file_list = ['tests/example.csv', 'tests/example2.csv', 'tests/example3.csv']
+    output_file = 'combination.csv'
+    combine_files(input_file_list, output_file = output_file)
     
     
     ### Splitting ###

@@ -129,7 +129,7 @@ def run_util(input_file, task = ''):
     elif task == 'combine_files':
         input_file_list = ['tests/example.csv', 'tests/example2.csv', 'tests/example3.csv']
         output_file = 'combination.csv'
-        combine_files(input_file_list, output_file)
+        combine_files(input_file_list, output_file = output_file)
 
     # Splitting
     elif task == 'split_file':
@@ -163,8 +163,8 @@ if __name__ == '__main__':
     # task = 'value_distribution'
     # run_analysis(input_file, task)
 
-    input_file = 'tests/sdf_to_csv.sdf'
-    task = 'sdf_to_csv'
+    input_file = 'tests/example.csv'
+    task = 'combine_files'
     run_util(input_file, task)
 
 
