@@ -13,15 +13,21 @@ from rdkit.Chem.SaltRemover import SaltRemover
 from chembl_structure_pipeline import *
 from chembl_structure_pipeline.checker import *
 
+from rdkit import RDLogger
+
 
 
 def cleanup_single_smiles_by_CSP(smiles, cleanup_chirality = False):
     """
     clean up a single smiles with chembl_structure_pipeline
     :param smiles: str, smiles
-    :param cleanup_chirality: bool, whether or not to remove chirality
+    :param cleanup_chirality: bool, whether to remove chirality or not
     :return: cleaned smiles by chembl_structure_pipeline, flag to indicate if this smiles is valid
     """
+    # disable logging
+    lg = RDLogger.logger()
+    lg.setLevel(RDLogger.ERROR)
+
     # True if the input smiles can be properly converted, False if there is an error
     flag = True
     
@@ -53,7 +59,7 @@ def cleanup_library_by_CSP(df, smiles_column_num, cleanup_chirality = False):
     clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES', remove chirality in SMILES (optional)
     :param df: pandas.DataFrame object, input dataframe
     :param smiles_column_num: int, the number of the smiles column
-    :param cleanup_chirality: bool, whether or not to remove chirality
+    :param cleanup_chirality: bool, whether to remove chirality or not
     """
     # add 'Cleaned_SMILES' to columns
     columns = df.columns.tolist()    
@@ -156,7 +162,7 @@ def cleanup_smiles(input_file, smiles_column_num, cleanup_chirality = False, pro
     record and process disconnected SMILES (containing '.', i.e., polymer, salt, solvent) (optional)
     :param input_file: str, the filename of the input file
     :param smiles_column_num: int, the number of the smiles column
-    :param cleanup_chirality: bool, whether or not to remove chirality
+    :param cleanup_chirality: bool, whether to remove chirality or not
     :param process_disconnection: bool, whether or not to process disconnected SMILES
     :param process_disconnection_method: str, method for processing other disconnected SMILES,
     if process_disconnection_method == 'keep_longest', keep the longest part in SMILES
