@@ -68,7 +68,7 @@ def cleanup_library_by_CSP(df, smiles_column_name, cleanup_chirality = False):
     columns.insert(smiles_column_num + 1, 'Cleaned_SMILES')
         
     # use ChEMBL_Structure_Pipeline to clean up smiles    
-    df['Cleaned_SMILES'] = df['SMILES'].apply(lambda smiles: cleanup_single_smiles_by_CSP(smiles, cleanup_chirality))
+    df['Cleaned_SMILES'] = df[smiles_column_name].apply(lambda smiles: cleanup_single_smiles_by_CSP(smiles, cleanup_chirality))
     df[['Cleaned_SMILES', 'filter']] = pd.DataFrame(df['Cleaned_SMILES'].values.tolist())
 
     # generate df_cleaned
