@@ -52,11 +52,12 @@ def indexes_to_bools(indexes, num_tot):
 
 ### split sets ###
 
-def main(input_file, stratified_by = None):
+def main(input_file, stratified_by = None, trainset_ratio = 0.8):
     """
     split the set
     :param input_file: str, file path of the input file
     :param stratified_by: str or None, column based on which to split data in a stratified fashion
+    :param trainset_ratio: float, ratio of trainset
     """
     # folder
     folder, _ = os.path.split(os.path.abspath(input_file))
@@ -73,7 +74,7 @@ def main(input_file, stratified_by = None):
     # split sets
     splitter = Splitter(X, stratify = stratify)
 
-    X_train_index, X_test_index = splitter.train_test(trainset_ratio = 0.8)
+    X_train_index, X_test_index = splitter.train_test(trainset_ratio = trainset_ratio)
     print(X_test_index)
 
     df_train_set = df[indexes_to_bools(X_train_index, num_rows)]
@@ -92,4 +93,4 @@ def main(input_file, stratified_by = None):
 
 if __name__ == '__main__':
     input_file = 'tests/example_split_train_test.csv'
-    main(input_file, stratified_by='Label')
+    main(input_file, stratified_by='Label', trainset_ratio = 0.8)
