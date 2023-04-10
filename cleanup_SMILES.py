@@ -12,7 +12,6 @@ import numpy as np
 from rdkit.Chem.SaltRemover import SaltRemover
 from chembl_structure_pipeline import *
 from chembl_structure_pipeline.checker import *
-
 from rdkit import RDLogger
 
 
@@ -24,7 +23,7 @@ def cleanup_single_smiles_by_CSP(smiles, cleanup_chirality = False):
     :param cleanup_chirality: bool, whether to remove chirality or not
     :return: cleaned smiles by chembl_structure_pipeline, flag to indicate if this smiles is valid
     """
-    # disable logging
+    # disable rdkit logging
     lg = RDLogger.logger()
     lg.setLevel(RDLogger.ERROR)
 
@@ -54,17 +53,18 @@ def cleanup_single_smiles_by_CSP(smiles, cleanup_chirality = False):
     return smiles_canonicalized, flag
 
 
-def cleanup_library_by_CSP(df, smiles_column_num, cleanup_chirality = False):
+def cleanup_library_by_CSP(df, smiles_column_name, cleanup_chirality = False):
     """
     clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES', remove chirality in SMILES (optional)
     :param df: pandas.DataFrame object, input dataframe
-    :param smiles_column_num: int, the number of the smiles column
+    :param smiles_column_name: str, the name of the SMILES column
     :param cleanup_chirality: bool, whether to remove chirality or not
     """
     # add 'Cleaned_SMILES' to columns
     columns = df.columns.tolist()    
     if 'Cleaned_SMILES' in columns:
-        warnings.warn('Cleaned_SMILES already exists!')       
+        warnings.warn('Cleaned_SMILES already exists!')
+    smiles_column_num = columns.index(smiles_column_name)
     columns.insert(smiles_column_num + 1, 'Cleaned_SMILES')
         
     # use ChEMBL_Structure_Pipeline to clean up smiles    
@@ -124,7 +124,7 @@ def cleanup_disconnection_in_library(df, process_disconnection = False, process_
     """
     record and process disconnected SMILES (containing '.', i.e., polymer, salt, solvent) (optional)
     :param df: pandas.DataFrame object, input dataframe
-    :param process_disconnection: bool, whether or not to process disconnected SMILES
+    :param process_disconnection: bool, whether to process disconnected SMILES or not
     :param process_disconnection_method: str, method for processing other disconnected SMILES,
     if process_disconnection_method == 'keep_longest', keep the longest part in SMILES
     if process_disconnection_method == 'keep_most_atoms', keep the part with the most atoms
@@ -156,14 +156,24 @@ def cleanup_disconnection_in_library(df, process_disconnection = False, process_
     return df, df_disconnected
 
 
-def cleanup_smiles(input_file, smiles_column_num, cleanup_chirality = False, process_disconnection = False, process_disconnection_method = None):
+def remove_unnamed_columns(df):
+    """
+    remove unnamed columns
+    """
+    unnamed_cols = df.columns.str.contains('Unnamed:')
+    unnamed_cols_name = df.columns[unnamed_cols]
+    df.drop(unnamed_cols_name, axis=1, inplace=True)
+    return df
+
+
+def cleanup_smiles(input_file, smiles_column_name, cleanup_chirality = False, process_disconnection = False, process_disconnection_method = None):
     """
     clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES', remove chirality in SMILES (optional),
     record and process disconnected SMILES (containing '.', i.e., polymer, salt, solvent) (optional)
     :param input_file: str, the filename of the input file
-    :param smiles_column_num: int, the number of the smiles column
+    :param smiles_column_name: str, the name of the SMILES column
     :param cleanup_chirality: bool, whether to remove chirality or not
-    :param process_disconnection: bool, whether or not to process disconnected SMILES
+    :param process_disconnection: bool, whether to process disconnected SMILES or not
     :param process_disconnection_method: str, method for processing other disconnected SMILES,
     if process_disconnection_method == 'keep_longest', keep the longest part in SMILES
     if process_disconnection_method == 'keep_most_atoms', keep the part with the most atoms
@@ -172,7 +182,7 @@ def cleanup_smiles(input_file, smiles_column_num, cleanup_chirality = False, pro
     output_file, fmt = os.path.splitext(os.path.abspath(input_file))
     
     if fmt in {'.csv'}:
-        df = pd.read_csv(input_file, index_col = 0)
+        df = pd.read_csv(input_file)
     elif fmt in {'.xlsx'}:
         df = pd.read_excel(input_file)
     else:
@@ -180,7 +190,7 @@ def cleanup_smiles(input_file, smiles_column_num, cleanup_chirality = False, pro
         return
     
     # clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES', remove chirality in SMILES (optional)
-    df, df_error = cleanup_library_by_CSP(df, smiles_column_num, cleanup_chirality)
+    df, df_error = cleanup_library_by_CSP(df, smiles_column_name, cleanup_chirality)
     
     # record and process disconnected SMILES (containing '.', i.e., polymer, salt, solvent) (optional)
     df, df_disconnected = cleanup_disconnection_in_library(df, process_disconnection, process_disconnection_method)
@@ -188,14 +198,17 @@ def cleanup_smiles(input_file, smiles_column_num, cleanup_chirality = False, pro
     # write to file
     df = df.reset_index(drop = True)
     print('Number of rows after removing invalid SMILES:', df.shape[0])
+    df = remove_unnamed_columns(df)
     df.to_csv('{}_CSP.csv'.format(output_file))
 
     df_error = df_error.reset_index(drop = True)
     print('Number of error SMILES:', df_error.shape[0])
+    df_error = remove_unnamed_columns(df_error)
     df_error.to_csv('{}_SMILES_errors.csv'.format(output_file))
 
     df_disconnected = df_disconnected.reset_index(drop = True)
     print('Number of SMILES to check:', df_disconnected.shape[0])
+    df_disconnected = remove_unnamed_columns(df_disconnected)
     df_disconnected.to_csv('{}_SMILES_to_check.csv'.format(output_file))
 
 
@@ -203,10 +216,10 @@ def cleanup_smiles(input_file, smiles_column_num, cleanup_chirality = False, pro
 if __name__ == '__main__':
     
     input_file = 'tests/example_format.csv'
-    smiles_column_num = 1
+    smiles_column_name = 'SMILES'
     cleanup_chirality = True
     process_disconnection = True
     process_disconnection_method = 'keep_most_atoms'
     
-    cleanup_smiles(input_file, smiles_column_num, cleanup_chirality, process_disconnection, process_disconnection_method)
+    cleanup_smiles(input_file, smiles_column_name, cleanup_chirality, process_disconnection, process_disconnection_method)
 

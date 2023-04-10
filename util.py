@@ -12,6 +12,18 @@ from rdkit import Chem
 
 
 
+### Helper functions ###
+
+def remove_unnamed_columns(df):
+    """
+    remove unnamed columns
+    """
+    unnamed_cols = df.columns.str.contains('Unnamed:')
+    unnamed_cols_name = df.columns[unnamed_cols]
+    df.drop(unnamed_cols_name, axis=1, inplace=True)
+    return df
+
+
 ### Change other format to .csv ###
 
 def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', output_file=None, start_id = 0):
@@ -67,6 +79,7 @@ def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', 
 
     print('Number of SMILES:', df.shape[0])
     output_file = '{}_{}.csv'.format(output_file, df.shape[0])
+    df = remove_unnamed_columns(df)
     df.to_csv(output_file)
 
     return i + start_id
@@ -92,7 +105,7 @@ def combine_files(input_file_list, columns = None, output_file = None):
     # read files
     df_list = []
     for file in input_file_list:
-        df = pd.read_csv(file, index_col = 0)
+        df = pd.read_csv(file)
         df_list.append(df)
     
     # concat DataFrames
@@ -105,7 +118,8 @@ def combine_files(input_file_list, columns = None, output_file = None):
     # write to file
     df = df.reset_index(drop = True)
     print('Number of rows:', df.shape[0])
-    df.to_csv(output_file) 
+    df = remove_unnamed_columns(df)
+    df.to_csv(output_file)
 
 
 def split_file(input_file, splitting_idx, output_file = None):
@@ -135,6 +149,8 @@ def split_file(input_file, splitting_idx, output_file = None):
     
     print('Number of rows in file 1 is {}'.format(df_1.shape[0]))
     print('Number of rows in file 2 is {}'.format(df_2.shape[0]))
+    df_1 = remove_unnamed_columns(df_1)
+    df_2 = remove_unnamed_columns(df_2)
     df_1.to_csv(output_file_1)
     df_2.to_csv(output_file_2)
 
@@ -173,6 +189,7 @@ def get_subset(input_file, num_cpd, method = 'random', output_file = None):
     df_subset = df_subset.reset_index(drop = True)
     
     print('Number of rows:', df_subset.shape[0])
+    df_subset = remove_unnamed_columns(df_subset)
     df_subset.to_csv(output_file)
     
 
@@ -190,9 +207,9 @@ if __name__ == '__main__':
 
 
     ### Combination ###
-    input_file_list = ['tests/example.csv', 'tests/example2.csv', 'tests/example3.csv']
-    output_file = 'combination.csv'
-    combine_files(input_file_list, output_file = output_file)
+    # input_file_list = ['tests/example.csv', 'tests/example2.csv', 'tests/example3.csv']
+    # output_file = 'combination.csv'
+    # combine_files(input_file_list, output_file = output_file)
     
     
     ### Splitting ###
@@ -203,11 +220,11 @@ if __name__ == '__main__':
     
     
     ### Get subset ###
-    # input_file = 'tests/example.csv'
-    # num_cpd = 10
-    # method = 'random'
-    # output_file = 'subset.csv'
-    # get_subset(input_file, num_cpd, method = method, output_file = output_file)
+    input_file = 'tests/example_noIndex.csv'
+    num_cpd = 10
+    method = 'random'
+    output_file = 'subset.csv'
+    get_subset(input_file, num_cpd, method = method, output_file = output_file)
 
 
 

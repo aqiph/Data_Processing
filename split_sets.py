@@ -49,6 +49,15 @@ def indexes_to_bools(indexes, num_tot):
     return bools
 
 
+def remove_unnamed_columns(df):
+    """
+    remove unnamed columns
+    """
+    unnamed_cols = df.columns.str.contains('Unnamed:')
+    unnamed_cols_name = df.columns[unnamed_cols]
+    df.drop(unnamed_cols_name, axis=1, inplace=True)
+    return df
+
 
 ### split sets ###
 
@@ -63,7 +72,7 @@ def main(input_file, stratified_by = None, trainset_ratio = 0.8):
     folder, _ = os.path.split(os.path.abspath(input_file))
 
     # read file
-    df = pd.read_csv(input_file, index_col=0)
+    df = pd.read_csv(input_file)
     num_rows = df.shape[0]
     X = np.arange(num_rows)
     if stratified_by is not None:
@@ -85,12 +94,13 @@ def main(input_file, stratified_by = None, trainset_ratio = 0.8):
     df_test_set = df_test_set.reset_index(drop=True)
     print('Number of rows trainset is {}'.format(df_train_set.shape[0]))
     print('Number of rows testset is {}'.format(df_test_set.shape[0]))
+    df_train_set = remove_unnamed_columns(df_train_set)
+    df_test_set = remove_unnamed_columns(df_test_set)
     df_train_set.to_csv(os.path.join(folder, 'trainset.csv'))
     df_test_set.to_csv(os.path.join(folder, 'testset.csv'))
 
 
 
-
 if __name__ == '__main__':
-    input_file = 'tests/example_split_train_test.csv'
+    input_file = 'tests/example_noIndex_split_train_test.csv'
     main(input_file, stratified_by='Label', trainset_ratio = 0.8)

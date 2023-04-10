@@ -64,6 +64,16 @@ def duplicate_analysis(df, output_file, by_column = ['Cleaned_SMILES'], id_colum
     output.close()
 
 
+def remove_unnamed_columns(df):
+    """
+    remove unnamed columns
+    """
+    unnamed_cols = df.columns.str.contains('Unnamed:')
+    unnamed_cols_name = df.columns[unnamed_cols]
+    df.drop(unnamed_cols_name, axis=1, inplace=True)
+    return df
+
+
 def remove_duplicates(input_file, by_column = ['Cleaned_SMILES'], keep = 'first', id_column_name = 'ID', smiles_column_name = 'SMILES'):
     """
     clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES'
@@ -77,7 +87,7 @@ def remove_duplicates(input_file, by_column = ['Cleaned_SMILES'], keep = 'first'
     output_file, fmt = os.path.splitext(os.path.abspath(input_file))
     
     if fmt in {'.csv'}:
-        df = pd.read_csv(input_file, index_col = 0)
+        df = pd.read_csv(input_file)
     elif fmt in {'.xlsx'}:
         df = pd.read_excel(input_file)
     else:
@@ -95,13 +105,14 @@ def remove_duplicates(input_file, by_column = ['Cleaned_SMILES'], keep = 'first'
     
     # write to file
     print('The number of rows after removing duplicates:', df.shape[0])
+    df = remove_unnamed_columns(df)
     df.to_csv('{}_rmDuplicates.csv'.format(output_file))
 
 
 
 if __name__ == '__main__':
     
-    input_file = 'tests/example_format_CSP.csv'
+    input_file = 'tests/example_noIndex_format_CSP.csv'
     by_column = ['Cleaned_SMILES']
     
     remove_duplicates(input_file, by_column, keep = 'first', id_column_name = 'ID', smiles_column_name = 'SMILES')

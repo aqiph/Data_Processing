@@ -31,16 +31,17 @@ def run_cleanup_format(input_file):
     filename = os.path.join(folder, output_file)
     
     # ID, SMILES, Value
-    id_column_name = 'ID'
+    id_column_name = 'Compound ID'
     smiles_column_name = 'SMILES'
-    value_column_name = 'Value'
-    df = operate_ID_SMILES_Value(df, id_column_name, smiles_column_name, value_column_name)
+    value_column_name = 'EC50 (nM)'
+    dropna_column_names = ['SMILES']
+    df = operate_ID_SMILES_Value(df, id_column_name, smiles_column_name, value_column_name, dropna_column_names)
     
     # Assay, Assay_Parameter
     assay_column_name = None
-    assay = ''
+    assay = 'Activity'
     assayParameter_column_name = None
-    assayParameter = ''
+    assayParameter = 'EC50'
     df = operate_Assay_AssayParameter(df, assay_column_name, assay, assayParameter_column_name, assayParameter)
     
     # Operator, Units
@@ -48,7 +49,7 @@ def run_cleanup_format(input_file):
     operator = None
     value_column_name = 'Value'
     unit_column_name = None
-    unit = ''
+    unit = 'nM'
     df = operate_Operator_Value_Units(df, operator_column_name, operator, value_column_name, unit_column_name, unit)
     
     write_output(df, filename, use_standard_format=True)
@@ -59,12 +60,12 @@ def run_cleanup_SMILES(input_file):
     call cleanup_SMILES to clean up SMILES
     :param input_file: str, the name of the input file
     """
-    smiles_column_num = 1
+    smiles_column_name = 'SMILES'
     cleanup_chirality = True
     process_disconnection = True
     process_disconnection_method = 'keep_most_atoms'
 
-    cleanup_smiles(input_file, smiles_column_num, cleanup_chirality, process_disconnection, process_disconnection_method)
+    cleanup_smiles(input_file, smiles_column_name, cleanup_chirality, process_disconnection, process_disconnection_method)
 
 
 def run_cleanup_duplicates(input_file):
@@ -74,7 +75,7 @@ def run_cleanup_duplicates(input_file):
     """
     by_column = ['Cleaned_SMILES']
     
-    remove_duplicates(input_file, by_column, keep = 'first')
+    remove_duplicates(input_file, by_column, keep = 'first', id_column_name = 'ID', smiles_column_name = 'SMILES')
 
 
 def run_add_labels(input_file):
@@ -149,13 +150,13 @@ if __name__ == '__main__':
 
     # input_file = 'tests/example.csv'
     # run_cleanup_format(input_file)
-
+    #
     # input_file = 'tests/example_format.csv'
     # run_cleanup_SMILES(input_file)
-
-    # input_file = 'test/example_format_CSP.csv'
+    #
+    # input_file = 'tests/example_format_CSP.csv'
     # run_cleanup_duplicates(input_file)
-
+    #
     # input_file = 'tests/example_format_CSP_rmDuplicates.csv'
     # run_add_labels(input_file)
 
@@ -164,7 +165,8 @@ if __name__ == '__main__':
     # run_analysis(input_file, task)
 
     input_file = 'tests/example.csv'
-    task = 'combine_files'
+    # input_file = 'tests/sdf_to_csv.sdf'
+    task = 'get_subset'
     run_util(input_file, task)
 
 

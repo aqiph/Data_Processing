@@ -23,7 +23,7 @@ def add_label_column(input_file, task, **kwargs):
     output_file, fmt = os.path.splitext(os.path.abspath(input_file))
     
     if fmt in {'.csv'}:
-        df = pd.read_csv(input_file, index_col = 0)
+        df = pd.read_csv(input_file)
     elif fmt in {'.xlsx'}:
         df = pd.read_excel(input_file)
     else:
@@ -52,6 +52,7 @@ def add_label_column(input_file, task, **kwargs):
     print('Number of rows after adding labels:', df.shape[0])
     if task in {'classification'}:
         print('Number of examples in each class:', df['Label'].value_counts())
+    df = remove_unnamed_columns(df)
     df.to_csv('{}_labels.csv'.format(output_file))
 
 
@@ -110,10 +111,20 @@ def RegressionLabeling(row, value_column_name, regression_label_function):
         return - float(value) ** 2.0 if value <= 0.0 else 0
 
 
+def remove_unnamed_columns(df):
+    """
+    remove unnamed columns
+    """
+    unnamed_cols = df.columns.str.contains('Unnamed:')
+    unnamed_cols_name = df.columns[unnamed_cols]
+    df.drop(unnamed_cols_name, axis=1, inplace=True)
+    return df
+
+
 
 if __name__ == '__main__':
     
-    input_file = 'tests/example_format_CSP_rmDuplicates.csv'
+    input_file = 'tests/example_noIndex_format_CSP_rmDuplicates.csv'
     task = 'classification'
 
     value_column_name = 'Value'

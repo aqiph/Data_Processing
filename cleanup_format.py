@@ -178,20 +178,31 @@ def split_operator_value(raw):
     return operator, number
 
 
+def remove_unnamed_columns(df):
+    """
+    remove unnamed columns
+    """
+    unnamed_cols = df.columns.str.contains('Unnamed:')
+    unnamed_cols_name = df.columns[unnamed_cols]
+    df.drop(unnamed_cols_name, axis=1, inplace=True)
+    return df
+
+
 def write_output(df, output_file, use_standard_format=False):
     """
     write to output file
     :param df: pandas.DataFrame object, input dataframe
     :param output_file: str, output file path without extension
-    :param use_standard_format: bool, whether or not to change columns to standard format
+    :param use_standard_format: bool, whether to change columns to standard format or not
     """
-    if use_standard_format:
-        df = pd.DataFrame(df, columns = ['ID', 'SMILES', 'Assay', 'Assay_Parameter', 'Operator', 'Value', 'Units'])
-
     df = df.reset_index(drop = True)
     print('Number of rows:', df.shape[0])
+    if use_standard_format:
+        df = pd.DataFrame(df, columns = ['ID', 'SMILES', 'Assay', 'Assay_Parameter', 'Operator', 'Value', 'Units'])
+    else:
+        df = remove_unnamed_columns(df)
     df.to_csv('{}_format.csv'.format(output_file))
-    
+
 
 
 if __name__ == '__main__':
