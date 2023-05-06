@@ -90,7 +90,6 @@ def value_distribution(input_file, value_column_name, useLog = False, range = [0
     plt.ylabel('Counts', fontproperties=font)
     plt.xticks(fontproperties=font)
     plt.yticks(fontproperties=font)
-
     
     plt.savefig(output_file_distribution, dpi = 300)
     plt.show()

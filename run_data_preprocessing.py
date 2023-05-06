@@ -18,6 +18,7 @@ from cleanup_SMILES import cleanup_smiles
 from cleanup_duplicates import remove_duplicates
 from add_labels import add_label_column
 from analysis import analyze_assay, value_distribution
+from hit_rate_analysis import hit_counts_in_HTS, plot_stat
 from util import sdf_to_csv, combine_files, split_file, get_subset
 
 
@@ -113,6 +114,16 @@ def run_analysis(input_file, task = ''):
         value_distribution(input_file, value_column_name, useLog=False, range = range)
 
 
+def run_hit_rate_analysis(input_file):
+    """
+    calculate hit counts and hit rates, plot them
+    """
+    hit_counts_in_HTS(input_file, id_column_name='Analog_ID')
+
+    input_file = os.path.splitext(os.path.abspath(input_file))[0] + '_stat.csv'
+    plot_stat(input_file, remove_zero=True)
+
+
 def run_util(input_file, task = ''):
     """
     call util
@@ -164,10 +175,13 @@ if __name__ == '__main__':
     # task = 'value_distribution'
     # run_analysis(input_file, task)
 
-    input_file = 'tests/example.csv'
+    # input_file = 'tests/example.csv'
     # input_file = 'tests/sdf_to_csv.sdf'
-    task = 'get_subset'
-    run_util(input_file, task)
+    # task = 'get_subset'
+    # run_util(input_file, task)
+
+    input_file = 'tests/test_hit_rate_analysis.csv'
+    run_hit_rate_analysis(input_file)
 
 
 
