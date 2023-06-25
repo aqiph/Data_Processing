@@ -17,9 +17,9 @@ from cleanup_format import read_input, operate_ID_SMILES_Value, operate_Assay_As
 from cleanup_SMILES import cleanup_smiles
 from cleanup_duplicates import remove_duplicates
 from add_labels import add_label_column
-from analysis import analyze_assay, value_distribution
+from distribution_analysis import analyze_assay, value_distribution
 from hit_rate_analysis import hit_counts_in_HTS, plot_stat
-from util import sdf_to_csv, combine_files, split_file, get_subset
+from util import sdf_to_csv, json_to_csv, combine_files, split_file, get_subset
 
 
 def run_cleanup_format(input_file):
@@ -137,6 +137,9 @@ def run_util(input_file, task = ''):
         num = sdf_to_csv(input_file, ID_name, SMILES_name, library_name, output_file, start_id=1)
         print(num)
 
+    if task == 'json_to_csv':
+        json_to_csv(input_file)
+
     # Combination
     elif task == 'combine_files':
         input_file_list = ['tests/example.csv', 'tests/example2.csv', 'tests/example3.csv']
@@ -175,13 +178,12 @@ if __name__ == '__main__':
     # task = 'value_distribution'
     # run_analysis(input_file, task)
 
-    # input_file = 'tests/example.csv'
-    # input_file = 'tests/sdf_to_csv.sdf'
-    # task = 'get_subset'
-    # run_util(input_file, task)
+    input_file = 'tests/example_json_to_csv.csv'
+    task = 'json_to_csv'
+    run_util(input_file, task)
 
-    input_file = 'tests/test_hit_rate_analysis.csv'
-    run_hit_rate_analysis(input_file)
+    # input_file = 'tests/test_hit_rate_analysis.csv'
+    # run_hit_rate_analysis(input_file)
 
 
 

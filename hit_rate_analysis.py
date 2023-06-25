@@ -30,25 +30,34 @@ def get_hit_count(input_file, input_library, id_column_name='ID', print_hits=Fal
     """
     df_active = pd.read_csv(input_file)
     df_library = pd.read_csv(input_library)
+    sublibrary = str(os.path.split(input_library)[1]).split('_')[1]
+    output = os.path.splitext(os.path.abspath(input_file))[0]
+    output = f'{output}_{sublibrary}'
 
-    df_active['ID'] = df_active[id_column_name].apply(lambda id: str(id))
-    df_library['ID'] = df_library['ID'].apply(lambda id: str(id))
+    COLUMNS = df_active.columns.tolist()
+    df_active['ID_'] = df_active[id_column_name].apply(lambda id: str(id))
+    df_library['ID_'] = df_library['ID'].apply(lambda id: str(id))
+    df_library.rename(columns={'ID':'ID_lib', 'SMILES':'SMILES_lib', 'Cleaned_SMILES':'Cleaned_SMILES_lib',
+                               'Assay':'Assay_lib', 'Assay_Parameter':'Assay_Parameter_lib', 'Operator':'Operator_lib',
+                               'Value':'Value_lib', 'Units':'Units_lib'}, inplace=True)
 
-    df_int = pd.merge(df_active, df_library, how='inner', on=['ID'])
+    df_int = pd.merge(df_active, df_library, how='inner', on=['ID_'])
+    df_int = pd.DataFrame(df_int, columns = COLUMNS)
     hit_count = df_int.shape[0]
     print(f'Number of cmps in {input_library} is {hit_count}')
     if print_hits:
         df_int = remove_unnamed_columns(df_int)
-        df_int.to_csv('cmps_in_library.csv')
+        df_int.to_csv(f'{output}_{hit_count}.csv')
 
     return hit_count
 
 
-def hit_counts_in_HTS(input_file, id_column_name='ID'):
+def hit_counts_in_HTS(input_file, id_column_name='ID', print_hits=False):
     """
     Calculate the number of hits and hit rate in each sublibrary of HTS library
     :param input_file: str, path of the file containing selected/active compounds
     :param id_column_name: str, name of the ID column in the input_file
+    :param print_hits: bool, whether to print the hits in this library or not
     """
     # output file path without extension
     output_file = os.path.splitext(os.path.abspath(input_file))[0]
@@ -77,7 +86,7 @@ def hit_counts_in_HTS(input_file, id_column_name='ID'):
             filtered_files = [file for file in files if file.startswith(f'HTS_{sublibrary}_forGNN_')]
             input_library = f'{folder}/{library}/{sublibrary}_20230317/final/{filtered_files[0]}'
 
-            hit_count = get_hit_count(input_file, input_library, id_column_name, print_hits=False)
+            hit_count = get_hit_count(input_file, input_library, id_column_name, print_hits=print_hits)
             hit_rate = float(hit_count)/float(Sublibrary_tot[i][j])
             Sublib_names.append(sublibrary)
             Hit_counts.append(hit_count)

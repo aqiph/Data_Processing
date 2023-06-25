@@ -8,20 +8,10 @@ Created on Thu May 19 17:35:12 2022
 
 import os
 import pandas as pd
+import json
 from rdkit import Chem
+from tools import remove_unnamed_columns
 
-
-
-### Helper functions ###
-
-def remove_unnamed_columns(df):
-    """
-    remove unnamed columns
-    """
-    unnamed_cols = df.columns.str.contains('Unnamed:')
-    unnamed_cols_name = df.columns[unnamed_cols]
-    df.drop(unnamed_cols_name, axis=1, inplace=True)
-    return df
 
 
 ### Change other format to .csv ###
@@ -29,20 +19,18 @@ def remove_unnamed_columns(df):
 def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', output_file=None, start_id = 0):
     """
     read input .sdf file, convert to .csv file
-    :param input_file: str, the filename of the input .sdf file
+    :param input_file: str, path of the input .sdf file
     :param ID_name: str, name of ID in .sdf file
     :param SMILES_name: str, name of SMILES in .sdf file
     :param library_name: str, library name
-    :param output_file: str, the filename of the output .csv file
+    :param output_file: str, name of the output .csv file
     :param start_id: int, if ID is not specified in .sdf file, ID is generated starting with start_id
     """
-    # output name
+    # output file
     folder, basename = os.path.split(os.path.abspath(input_file))
     if output_file is None:
-        basename_without_ext = os.path.splitext(basename)[0]
-        output_file = os.path.join(folder, basename_without_ext)
-    else:
-        output_file = os.path.join(folder, os.path.splitext(output_file)[0])
+        output_file = basename
+    output_file = os.path.join(folder, os.path.splitext(output_file)[0])
 
     # read mol
     ID_list = []
@@ -83,6 +71,31 @@ def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', 
     df.to_csv(output_file)
 
     return i + start_id
+
+
+def json_to_csv(input_file, output_file=None):
+    """
+    read input .json file, convert to .csv file
+    :param input_file: str, path of the input .json file
+    :param output_file: str, name of the output .csv file
+    """
+    # output file
+    folder, basename = os.path.split(os.path.abspath(input_file))
+    if output_file is None:
+        output_file = basename
+    output_file = os.path.join(folder, os.path.splitext(output_file)[0])
+
+    # get data
+    with open(input_file, 'r', encoding='utf8') as fr:
+        data = json.load(fr)
+
+    df = pd.DataFrame(data)
+
+    # write output file
+    print('Number of SMILES:', df.shape[0])
+    output_file = '{}_{}.csv'.format(output_file, df.shape[0])
+    # df = remove_unnamed_columns(df)
+    df.to_csv(output_file)
 
 
 ### Combination and splitting ###
@@ -205,6 +218,10 @@ if __name__ == '__main__':
     # num = sdf_to_csv(input_file, ID_name, SMILES_name, library_name, output_file, start_id=1)
     # print(num)
 
+    input_file = 'tests/example_json_to_csv.json'
+    output_file = 'example_json_to_csv.csv'
+    json_to_csv(input_file, output_file)
+
 
     ### Combination ###
     # input_file_list = ['tests/example.csv', 'tests/example2.csv', 'tests/example3.csv']
@@ -220,11 +237,11 @@ if __name__ == '__main__':
     
     
     ### Get subset ###
-    input_file = 'tests/example_noIndex.csv'
-    num_cpd = 10
-    method = 'random'
-    output_file = 'subset.csv'
-    get_subset(input_file, num_cpd, method = method, output_file = output_file)
+    # input_file = 'tests/example_noIndex.csv'
+    # num_cpd = 10
+    # method = 'random'
+    # output_file = 'subset.csv'
+    # get_subset(input_file, num_cpd, method = method, output_file = output_file)
 
 
 
