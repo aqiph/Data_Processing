@@ -8,6 +8,7 @@ Created on Thu May 19 17:35:12 2022
 
 import os
 import pandas as pd
+import numpy as np
 import json
 from rdkit import Chem
 from tools import remove_unnamed_columns
@@ -16,7 +17,7 @@ from tools import remove_unnamed_columns
 
 ### Change other format to .csv ###
 
-def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', output_file=None, start_id = 0):
+def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', output_file=None, start_id = 0, **kwargs):
     """
     read input .sdf file, convert to .csv file
     :param input_file: str, path of the input .sdf file
@@ -35,6 +36,9 @@ def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', 
     # read mol
     ID_list = []
     SMILES_list = []
+    property_name = kwargs.get('property_name', None)
+    if property_name is not None:
+        property_list = []
     sdf_sup = Chem.SDMolSupplier(input_file)
 
     for i, mol in enumerate(sdf_sup):
@@ -53,6 +57,13 @@ def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', 
         except:
             SMILES = Chem.MolToSmiles(mol)
 
+        if property_name is not None:
+            try:
+                property = mol.GetProp(property_name)
+            except:
+                property = np.nan
+            property_list.append(property)
+
         ID_list.append(ID)
         SMILES_list.append(SMILES)
 
@@ -61,6 +72,8 @@ def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', 
 
     # create DataFrame
     df = pd.DataFrame({'ID': ID_list, 'SMILES': SMILES_list})
+    if property_name is not None:
+        df[property_name] = property_list
 
     # write output file
     df = df.reset_index(drop=True)
@@ -73,11 +86,12 @@ def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', 
     return i + start_id
 
 
-def json_to_csv(input_file, output_file=None):
+def json_to_csv(input_file, output_file=None, format='json'):
     """
     read input .json file, convert to .csv file
     :param input_file: str, path of the input .json file
     :param output_file: str, name of the output .csv file
+    :param format: str, 'json' or 'jsonl'
     """
     # output file
     folder, basename = os.path.split(os.path.abspath(input_file))
@@ -86,8 +100,17 @@ def json_to_csv(input_file, output_file=None):
     output_file = os.path.join(folder, os.path.splitext(output_file)[0])
 
     # get data
-    with open(input_file, 'r', encoding='utf8') as fr:
-        data = json.load(fr)
+    if format == 'json':
+        with open(input_file, 'r', encoding='utf8') as fr:
+            data = json.load(fr)
+    elif format == 'jsonl':
+        data = []
+        with open(input_file, 'r', encoding='utf8') as fr:
+            for line in fr:
+                data.append(json.loads(line))
+    else:
+        print('Error: Invalid format for the input file')
+        return
 
     df = pd.DataFrame(data)
 
@@ -103,7 +126,7 @@ def json_to_csv(input_file, output_file=None):
 def combine_files(input_file_list, columns = None, output_file = None):
     """
     combine multiple data sets
-    :param input_file_list: list of strs, the file names of the original input file
+    :param input_file_list: list of strs, file path of the input files
     :param columns: columns in the output_file
     :param output_file: str or None, pre-defined output file name
     """
@@ -221,7 +244,6 @@ if __name__ == '__main__':
     input_file = 'tests/example_json_to_csv.json'
     output_file = 'example_json_to_csv.csv'
     json_to_csv(input_file, output_file)
-
 
     ### Combination ###
     # input_file_list = ['tests/example.csv', 'tests/example2.csv', 'tests/example3.csv']

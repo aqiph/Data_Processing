@@ -75,7 +75,7 @@ def ClassificationLabeling(row, value_column_name, thresholds, value_label_corre
     if value_label_correlation == 'positive':
         thresholds.sort()
         while label < len(thresholds):
-            if value < float(thresholds[label]):
+            if value <= float(thresholds[label]):
                 return label 
             label += 1
         return label
@@ -84,7 +84,7 @@ def ClassificationLabeling(row, value_column_name, thresholds, value_label_corre
     elif value_label_correlation == 'negative':
         thresholds.sort(reverse = True)
         while label < len(thresholds):
-            if value >= float(thresholds[label]):
+            if value > float(thresholds[label]):
                 return label
             label += 1
         return label

@@ -25,7 +25,7 @@ def read_input(input_file):
     elif fmt in {'.xlsx'}:
         df = pd.read_excel(input_file)
     else:
-        print('Error: Invalid format of the input file')
+        print('Error: Invalid format for the input file')
         return
     
     return df, folder, output_file

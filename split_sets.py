@@ -61,7 +61,7 @@ def remove_unnamed_columns(df):
 
 ### split sets ###
 
-def main(input_file, stratified_by = None, trainset_ratio = 0.8):
+def split_sets_for_training(input_file, stratified_by = None, trainset_ratio = 0.8):
     """
     split the set
     :param input_file: str, file path of the input file
@@ -103,4 +103,4 @@ def main(input_file, stratified_by = None, trainset_ratio = 0.8):
 
 if __name__ == '__main__':
     input_file = 'tests/example_noIndex_split_train_test.csv'
-    main(input_file, stratified_by='Label', trainset_ratio = 0.8)
+    split_sets_for_training(input_file, stratified_by='Label', trainset_ratio = 0.8)

@@ -164,13 +164,13 @@ if __name__ == '__main__':
 
     # input_file = 'tests/example.csv'
     # run_cleanup_format(input_file)
-    #
+
     # input_file = 'tests/example_format.csv'
     # run_cleanup_SMILES(input_file)
-    #
+
     # input_file = 'tests/example_format_CSP.csv'
     # run_cleanup_duplicates(input_file)
-    #
+
     # input_file = 'tests/example_format_CSP_rmDuplicates.csv'
     # run_add_labels(input_file)
 
@@ -178,7 +178,7 @@ if __name__ == '__main__':
     # task = 'value_distribution'
     # run_analysis(input_file, task)
 
-    input_file = 'tests/example_json_to_csv.csv'
+    input_file = 'tests/example_json_to_csv.json'
     task = 'json_to_csv'
     run_util(input_file, task)
 
