@@ -137,7 +137,7 @@ def run_util(input_file, task = ''):
         num = sdf_to_csv(input_file, ID_name, SMILES_name, library_name, output_file, start_id=1)
         print(num)
 
-    if task == 'json_to_csv':
+    elif task == 'json_to_csv':
         json_to_csv(input_file)
 
     # Combination
