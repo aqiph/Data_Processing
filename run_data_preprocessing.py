@@ -153,9 +153,9 @@ def run_util(input_file, task = ''):
         split_file(input_file, splitting_idx, output_file = output_file)
 
     elif task == 'add_SMILES':
-        input_file_ref = 'tests/test_add_SMILES.csv'
-        id_column_name_ref = 'Compound_ID'
-        add_SMILES(input_file_ref, id_column_name_ref=id_column_name_ref, input_file_SMILES=None)
+        input_file_query = 'tests/test_add_SMILES.csv'
+        id_column_name_query = 'Compound_ID'
+        add_SMILES(input_file_query, id_column_name_query=id_column_name_query, input_file_SMILES=None)
 
     # Get subset
     elif task == 'get_subset':
