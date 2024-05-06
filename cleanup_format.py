@@ -15,7 +15,7 @@ import numpy as np
 def read_input(input_file):
     """
     read input file
-    :param input_file: str, the filename of the original input file
+    :param input_file: str, path of the input file
     """
     folder, basename = os.path.split(os.path.abspath(input_file))
     output_file, fmt = os.path.splitext(basename) # basename without extension

@@ -64,7 +64,7 @@ def remove_unnamed_columns(df):
 def split_sets_for_training(input_file, stratified_by = None, trainset_ratio = 0.8):
     """
     split the set
-    :param input_file: str, file path of the input file
+    :param input_file: str, path of the input file
     :param stratified_by: str or None, column based on which to split data in a stratified fashion
     :param trainset_ratio: float, ratio of trainset
     """

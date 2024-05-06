@@ -19,13 +19,13 @@ from cleanup_duplicates import remove_duplicates
 from add_labels import add_label_column
 from distribution_analysis import analyze_assay, value_distribution
 from hit_rate_analysis import hit_counts_in_HTS, plot_stat
-from util import sdf_to_csv, json_to_csv, combine_files, split_file, get_subset
+from util import sdf_to_csv, json_to_csv, combine_files, split_file, add_SMILES, get_subset
 
 
 def run_cleanup_format(input_file):
     """
     call cleanup_format to clean up format
-    :param input_file: str, the name of the input file
+    :param input_file: str, path of the input file
     """
     # file 
     df, folder, output_file = read_input(input_file)    
@@ -59,7 +59,7 @@ def run_cleanup_format(input_file):
 def run_cleanup_SMILES(input_file):
     """
     call cleanup_SMILES to clean up SMILES
-    :param input_file: str, the name of the input file
+    :param input_file: str, path of the input file
     """
     smiles_column_name = 'SMILES'
     cleanup_chirality = True
@@ -72,7 +72,7 @@ def run_cleanup_SMILES(input_file):
 def run_cleanup_duplicates(input_file):
     """
     call cleanup_duplicates to clean up duplicates
-    :param input_file: str, the name of the input file
+    :param input_file: str, path of the input file
     """
     by_column = ['Cleaned_SMILES']
     
@@ -82,7 +82,7 @@ def run_cleanup_duplicates(input_file):
 def run_add_labels(input_file):
     """
     call add labels
-    :param input_file: str, the name of the input file
+    :param input_file: str, path of the input file
     """
     task = 'classification'
 
@@ -99,7 +99,7 @@ def run_add_labels(input_file):
 def run_analysis(input_file, task = ''):
     """
     call analysis
-    :param input_file: str, the name of the input file
+    :param input_file: str, path of the input file
     """
     # analyze assay
     if task == 'analyze_assay':
@@ -127,7 +127,7 @@ def run_hit_rate_analysis(input_file):
 def run_util(input_file, task = ''):
     """
     call util
-    :param input_file: str, the name of the input file
+    :param input_file: str, path of the input file
     """
     if task == 'sdf_to_csv':
         ID_name = 'hit_id'
@@ -151,6 +151,11 @@ def run_util(input_file, task = ''):
         splitting_idx = 10
         output_file = 'subset.csv'
         split_file(input_file, splitting_idx, output_file = output_file)
+
+    elif task == 'add_SMILES':
+        input_file_ref = 'tests/test_add_SMILES.csv'
+        id_column_name_ref = 'Compound_ID'
+        add_SMILES(input_file_ref, id_column_name_ref=id_column_name_ref, input_file_SMILES=None)
 
     # Get subset
     elif task == 'get_subset':
@@ -178,8 +183,8 @@ if __name__ == '__main__':
     # task = 'value_distribution'
     # run_analysis(input_file, task)
 
-    input_file = 'tests/example_json_to_csv.json'
-    task = 'json_to_csv'
+    input_file = 'tests/test_add_SMILES.csv'
+    task = 'add_SMILES'
     run_util(input_file, task)
 
     # input_file = 'tests/test_hit_rate_analysis.csv'

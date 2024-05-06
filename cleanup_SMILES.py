@@ -170,7 +170,7 @@ def cleanup_smiles(input_file, smiles_column_name, cleanup_chirality = False, pr
     """
     clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES', remove chirality in SMILES (optional),
     record and process disconnected SMILES (containing '.', i.e., polymer, salt, solvent) (optional)
-    :param input_file: str, the filename of the input file
+    :param input_file: str, path of the input file
     :param smiles_column_name: str, the name of the SMILES column
     :param cleanup_chirality: bool, whether to remove chirality or not
     :param process_disconnection: bool, whether to process disconnected SMILES or not

@@ -16,7 +16,7 @@ from functools import partial
 def add_label_column(input_file, task, **kwargs):
     """
     add labels based on the Value column
-    :param input_file: str, the filename of the input file
+    :param input_file: str, path of the input file
     :param task: str, task for labeling, including 'classification', 'regression'
     """
     # output file path without extension

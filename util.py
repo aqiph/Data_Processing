@@ -16,7 +16,6 @@ from tools import remove_unnamed_columns
 
 
 ### Change other format to .csv ###
-
 def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', output_file=None, start_id = 0, **kwargs):
     """
     read input .sdf file, convert to .csv file
@@ -121,12 +120,11 @@ def json_to_csv(input_file, output_file=None, format='json'):
     df.to_csv(output_file)
 
 
-### Combination and splitting ###
-
+### Combine files and split a file ###
 def combine_files(input_file_list, columns = None, output_file = None):
     """
     combine multiple data sets
-    :param input_file_list: list of strs, file path of the input files
+    :param input_file_list: list of strs, paths of the input files
     :param columns: columns in the output_file
     :param output_file: str or None, pre-defined output file name
     """
@@ -161,7 +159,7 @@ def combine_files(input_file_list, columns = None, output_file = None):
 def split_file(input_file, splitting_idx, output_file = None):
     """
     split input_file into two files
-    :param input_file: str, file path of the input file
+    :param input_file: str, path of the input file
     :param splitting_idx: int, the number of rows in the first file
     :param output_file: str or None, pre-defined output file name
     """
@@ -191,12 +189,39 @@ def split_file(input_file, splitting_idx, output_file = None):
     df_2.to_csv(output_file_2)
 
 
-### Get subset ###
+### Add SMILES to the reference file ###
+def add_SMILES(input_file_ref, id_column_name_ref='ID', input_file_SMILES=None):
+    """
+    Add SMILES for compounds in input_file_ref from SMILES in input_file_SMILES.
+    :param input_file_ref: str, path of the reference compounds.
+    :param id_column_name_ref: str, name of the ID column in input_file_ref
+    :param input_file_SMILES: str, path of the input file containing ID and SMILES.
+    """
+    # files
+    df_ref = pd.read_csv(input_file_ref)
+    if id_column_name_ref != 'ID':
+        df_ref.rename(columns={id_column_name_ref: 'ID'}, inplace=True)
+    if input_file_SMILES is None:
+        input_file_SMILES = '/Users/guohan/Documents/Projects/Datasets/HTS/Combination/forGNN/HTS_forGNN_446663.csv'
+    df_SMILES = pd.read_csv(input_file_SMILES)
+    df_SMILES = pd.DataFrame(df_SMILES, columns=['ID', 'SMILES'])
 
+    # merge
+    df = pd.merge(df_ref, df_SMILES, how='left', on=['ID'])
+
+    # write output file
+    df = df.reset_index(drop=True)
+    print('Number of rows in the file:', df.shape[0])
+    df = remove_unnamed_columns(df)
+    output_file = f'{os.path.splitext(input_file_ref)[0]}_SMILES_{df.shape[0]}.csv'
+    df.to_csv(output_file)
+
+
+### Get subset ###
 def get_subset(input_file, num_cpd, method = 'random', output_file = None):
     """
     get subset
-    :param input_file: str, file path of the input file
+    :param input_file: str, path of the input file
     :param num_cpd: int, the number of compounds
     :param method: str, the way to select subset: random: randomly selected; an int: the first id of continuous rows
     :param output_file: str or None, pre-defined output file name
@@ -241,23 +266,28 @@ if __name__ == '__main__':
     # num = sdf_to_csv(input_file, ID_name, SMILES_name, library_name, output_file, start_id=1)
     # print(num)
 
-    input_file = 'tests/example_json_to_csv.json'
-    output_file = 'example_json_to_csv.csv'
-    json_to_csv(input_file, output_file)
+    # input_file = 'tests/example_json_to_csv.json'
+    # output_file = 'example_json_to_csv.csv'
+    # json_to_csv(input_file, output_file)
 
-    ### Combination ###
+
+    ### Combine files and split a file ###
     # input_file_list = ['tests/example.csv', 'tests/example2.csv', 'tests/example3.csv']
     # output_file = 'combination.csv'
     # combine_files(input_file_list, output_file = output_file)
-    
-    
-    ### Splitting ###
+
     # input_file = 'tests/example.csv'
     # splitting_idx = 10
     # output_file = 'subset.csv'
     # split_file(input_file, splitting_idx, output_file = output_file)
-    
-    
+
+
+    ### Add SMILES to the reference file ###
+    input_file_ref = 'tests/test_add_SMILES.csv'
+    id_column_name_ref = 'Compound_ID'
+    add_SMILES(input_file_ref, id_column_name_ref=id_column_name_ref, input_file_SMILES=None)
+
+
     ### Get subset ###
     # input_file = 'tests/example_noIndex.csv'
     # num_cpd = 10

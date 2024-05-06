@@ -77,7 +77,7 @@ def remove_unnamed_columns(df):
 def remove_duplicates(input_file, by_column = ['Cleaned_SMILES'], keep = 'first', id_column_name = 'ID', smiles_column_name = 'SMILES'):
     """
     clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES'
-    :param input_file: str, the filename of the input file
+    :param input_file: str, path of the input file
     :param by_column: list of str, list of column names according to which to group the input file
     :param keep: str, how to keep data if there are duplicates
     :param id_column_name: str, the name of the ID column
