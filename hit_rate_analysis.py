@@ -75,7 +75,7 @@ def hit_counts_in_HTS(input_file, id_column_name='ID', print_hits=False):
                       [1800, 2490],
                       [17947, 19999, 90237, 49974, 53200, 4208, 30080, 52531, 99040],
                       [3520, 837, 868, 2130],
-                      [2663, 1129, 11599]]
+                      [2664, 1129, 11599]]
 
     Sublib_names = []
     Hit_counts = []
@@ -83,7 +83,7 @@ def hit_counts_in_HTS(input_file, id_column_name='ID', print_hits=False):
     for i, library in enumerate(Library):
         for j, sublibrary in enumerate(Sublibrary[i]):
             files = os.listdir(f'{folder}/{library}/{sublibrary}_20230317/final')
-            filtered_files = [file for file in files if file.startswith(f'HTS_{sublibrary}_forGNN_')]
+            filtered_files = [file for file in files if file.startswith(f'HTS_{sublibrary}_forGeneralUse_')]
             input_library = f'{folder}/{library}/{sublibrary}_20230317/final/{filtered_files[0]}'
 
             hit_count = get_hit_count(input_file, input_library, id_column_name, print_hits=print_hits)
@@ -140,5 +140,5 @@ if __name__ == '__main__':
     input_file = 'tests/test_hit_rate_analysis.csv'
     hit_counts_in_HTS(input_file, id_column_name='Analog_ID')
 
-    input_file = 'tests/test_hit_rate_analysis_stat.csv'
-    plot_stat(input_file, remove_zero=True)
+    # input_file = 'tests/test_hit_rate_analysis_stat.csv'
+    # plot_stat(input_file, remove_zero=True)

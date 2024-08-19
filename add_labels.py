@@ -67,7 +67,7 @@ def ClassificationLabeling(row, value_column_name, thresholds, value_label_corre
     :param value_label_correlation: str, 'positive' indicates positive correlation between values and labels;
     'negative' indicates negative correlation between values and labels.
     """
-    value = row[value_column_name]
+    value = float(row[value_column_name])
     value_label_correlation = value_label_correlation.lower()
     label = 0
 
@@ -101,7 +101,7 @@ def RegressionLabeling(row, value_column_name, regression_label_function):
     :param value_column_name: str, name of the value column
     :param regression_label_function: str, name of the function used to convert value to regression label, can be: 'linear', 'quadratic'
     """
-    value = row[value_column_name]
+    value = float(row[value_column_name])
     regression_label_fn = regression_label_function.lower()
 
     if regression_label_fn == 'linear':
