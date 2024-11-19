@@ -15,9 +15,9 @@ from functools import partial
 
 def add_label_column(input_file, task, **kwargs):
     """
-    add labels based on the Value column
-    :param input_file: str, path of the input file
-    :param task: str, task for labeling, including 'classification', 'regression'
+    Add labels based on the Value column.
+    :param input_file: str, path of the input file.
+    :param task: str, task for labeling, including 'classification', 'regression'.
     """
     # output file path without extension
     output_file, fmt = os.path.splitext(os.path.abspath(input_file))
@@ -61,9 +61,9 @@ def add_label_column(input_file, task, **kwargs):
 def ClassificationLabeling(row, value_column_name, thresholds, value_label_correlation):
     """
     Helper function for add_label_column(). Generate multi-class classification label based on value
-    :param row: row of DataFrame
-    :param value_column_name: str, name of the value column
-    :param thresholds: list of floats, monotonically descending or ascending
+    :param row: row of DataFrame.
+    :param value_column_name: str, name of the value column.
+    :param thresholds: list of floats, monotonically descending or ascending.
     :param value_label_correlation: str, 'positive' indicates positive correlation between values and labels;
     'negative' indicates negative correlation between values and labels.
     """
@@ -96,10 +96,10 @@ def ClassificationLabeling(row, value_column_name, thresholds, value_label_corre
 
 def RegressionLabeling(row, value_column_name, regression_label_function):
     """
-    Helper function for add_label_column(). Generate regression label based on value
-    :param row: row of DataFrame
-    :param value_column_name: str, name of the value column
-    :param regression_label_function: str, name of the function used to convert value to regression label, can be: 'linear', 'quadratic'
+    Helper function for add_label_column(). Generate regression label based on value.
+    :param row: row of DataFrame.
+    :param value_column_name: str, name of the value column.
+    :param regression_label_function: str, name of the function used to convert value to regression label, can be: 'linear', 'quadratic'.
     """
     value = float(row[value_column_name])
     regression_label_fn = regression_label_function.lower()
@@ -113,7 +113,7 @@ def RegressionLabeling(row, value_column_name, regression_label_function):
 
 def remove_unnamed_columns(df):
     """
-    remove unnamed columns
+    Remove unnamed columns.
     """
     unnamed_cols = df.columns.str.contains('Unnamed:')
     unnamed_cols_name = df.columns[unnamed_cols]

@@ -13,12 +13,12 @@ import pandas as pd
 
 def duplicate_analysis(df, output_file, by_column = ['Cleaned_SMILES'], id_column_name = 'ID', smiles_column_name = 'SMILES'):
     """
-    analyze the duplicates in df
-    :param df: pandas.DataFrame object, input dataframe
-    :param output_file: str, output file path without extension for analysis report, folder/filename_without_extension
-    :param by_column: list of str, list of column names according to which to group the input file
-    :param id_column_name: str, the name of the ID column
-    :param smiles_column_name: str, the name of the SMILES column
+    Analyze the duplicates in df.
+    :param df: pandas.DataFrame object, input dataframe.
+    :param output_file: str, output file path without extension for analysis report, folder/filename_without_extension.
+    :param by_column: list of str, list of column names according to which to group the input file.
+    :param id_column_name: str, the name of the ID column.
+    :param smiles_column_name: str, the name of the SMILES column.
     """
     # output file
     output_file = '{}_duplicates.txt'.format(os.path.splitext(output_file)[0])
@@ -66,7 +66,7 @@ def duplicate_analysis(df, output_file, by_column = ['Cleaned_SMILES'], id_colum
 
 def remove_unnamed_columns(df):
     """
-    remove unnamed columns
+    Remove unnamed columns.
     """
     unnamed_cols = df.columns.str.contains('Unnamed:')
     unnamed_cols_name = df.columns[unnamed_cols]
@@ -76,12 +76,12 @@ def remove_unnamed_columns(df):
 
 def remove_duplicates(input_file, by_column = ['Cleaned_SMILES'], keep = 'first', id_column_name = 'ID', smiles_column_name = 'SMILES'):
     """
-    clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES'
-    :param input_file: str, path of the input file
-    :param by_column: list of str, list of column names according to which to group the input file
-    :param keep: str, how to keep data if there are duplicates
-    :param id_column_name: str, the name of the ID column
-    :param smiles_column_name: str, the name of the SMILES column
+    Clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES'.
+    :param input_file: str, path of the input file.
+    :param by_column: list of str, list of column names according to which to group the input file.
+    :param keep: str, how to keep data if there are duplicates.
+    :param id_column_name: str, the name of the ID column.
+    :param smiles_column_name: str, the name of the SMILES column.
     """
     # output file path without extension
     output_file, fmt = os.path.splitext(os.path.abspath(input_file))

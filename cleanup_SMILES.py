@@ -18,10 +18,10 @@ from rdkit import RDLogger
 
 def cleanup_single_smiles_by_CSP(smiles, cleanup_chirality = False):
     """
-    clean up a single smiles with chembl_structure_pipeline
-    :param smiles: str, smiles
-    :param cleanup_chirality: bool, whether to remove chirality or not
-    :return: cleaned smiles by chembl_structure_pipeline, flag to indicate if this smiles is valid
+    Clean up a single smiles with chembl_structure_pipeline.
+    :param smiles: str, smiles.
+    :param cleanup_chirality: bool, whether to remove chirality or not.
+    :return: cleaned smiles by chembl_structure_pipeline, flag to indicate if this smiles is valid.
     """
     # disable rdkit logging
     lg = RDLogger.logger()
@@ -55,10 +55,10 @@ def cleanup_single_smiles_by_CSP(smiles, cleanup_chirality = False):
 
 def cleanup_library_by_CSP(df, smiles_column_name, cleanup_chirality = False):
     """
-    clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES', remove chirality in SMILES (optional)
-    :param df: pandas.DataFrame object, input dataframe
-    :param smiles_column_name: str, the name of the SMILES column
-    :param cleanup_chirality: bool, whether to remove chirality or not
+    Clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES', remove chirality in SMILES (optional).
+    :param df: pandas.DataFrame object, input dataframe.
+    :param smiles_column_name: str, the name of the SMILES column.
+    :param cleanup_chirality: bool, whether to remove chirality or not.
     """
     # add 'Cleaned_SMILES' to columns
     columns = df.columns.tolist()    
@@ -86,12 +86,12 @@ def cleanup_library_by_CSP(df, smiles_column_name, cleanup_chirality = False):
 
 def cleanup_disconnection_in_single_smiles(smiles, saltRemover, process_disconnection_method):
     """
-    record and process a single disconnected SMILES (containing '.', i.e., polymer, salt, solvent)
-    :param smiles: str, SMILES
-    :param saltRemover: rdkit SaltRemover object
+    Record and process a single disconnected SMILES (containing '.', i.e., polymer, salt, solvent).
+    :param smiles: str, SMILES.
+    :param saltRemover: rdkit SaltRemover object.
     :param process_disconnection_method: str, method for processing other disconnected SMILES,
-    if process_disconnection_method == 'keep_longest', keep the longest part in SMILES
-    if process_disconnection_method == 'keep_most_atoms', keep the part with the most atoms
+    if process_disconnection_method == 'keep_longest', keep the longest part in SMILES;
+    if process_disconnection_method == 'keep_most_atoms', keep the part with the most atoms.
     """
     if '.' in smiles:
         mol = Chem.MolFromSmiles(smiles)
@@ -122,12 +122,12 @@ def cleanup_disconnection_in_single_smiles(smiles, saltRemover, process_disconne
 
 def cleanup_disconnection_in_library(df, process_disconnection = False, process_disconnection_method = None):
     """
-    record and process disconnected SMILES (containing '.', i.e., polymer, salt, solvent) (optional)
-    :param df: pandas.DataFrame object, input dataframe
-    :param process_disconnection: bool, whether to process disconnected SMILES or not
+    Record and process disconnected SMILES (containing '.', i.e., polymer, salt, solvent) (optional).
+    :param df: pandas.DataFrame object, input dataframe.
+    :param process_disconnection: bool, whether to process disconnected SMILES or not.
     :param process_disconnection_method: str, method for processing other disconnected SMILES,
-    if process_disconnection_method == 'keep_longest', keep the longest part in SMILES
-    if process_disconnection_method == 'keep_most_atoms', keep the part with the most atoms
+    if process_disconnection_method == 'keep_longest', keep the longest part in SMILES;
+    if process_disconnection_method == 'keep_most_atoms', keep the part with the most atoms.
     """
     columns = df.columns.tolist()
     
@@ -158,7 +158,7 @@ def cleanup_disconnection_in_library(df, process_disconnection = False, process_
 
 def remove_unnamed_columns(df):
     """
-    remove unnamed columns
+    Remove unnamed columns.
     """
     unnamed_cols = df.columns.str.contains('Unnamed:')
     unnamed_cols_name = df.columns[unnamed_cols]
@@ -168,15 +168,15 @@ def remove_unnamed_columns(df):
 
 def cleanup_smiles(input_file, smiles_column_name, cleanup_chirality = False, process_disconnection = False, process_disconnection_method = None):
     """
-    clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES', remove chirality in SMILES (optional),
-    record and process disconnected SMILES (containing '.', i.e., polymer, salt, solvent) (optional)
-    :param input_file: str, path of the input file
-    :param smiles_column_name: str, the name of the SMILES column
-    :param cleanup_chirality: bool, whether to remove chirality or not
-    :param process_disconnection: bool, whether to process disconnected SMILES or not
+    Clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES', remove chirality in SMILES (optional),
+    record and process disconnected SMILES (containing '.', i.e., polymer, salt, solvent) (optional).
+    :param input_file: str, path of the input file.
+    :param smiles_column_name: str, the name of the SMILES column.
+    :param cleanup_chirality: bool, whether to remove chirality or not.
+    :param process_disconnection: bool, whether to process disconnected SMILES or not.
     :param process_disconnection_method: str, method for processing other disconnected SMILES,
-    if process_disconnection_method == 'keep_longest', keep the longest part in SMILES
-    if process_disconnection_method == 'keep_most_atoms', keep the part with the most atoms
+    if process_disconnection_method == 'keep_longest', keep the longest part in SMILES;
+    if process_disconnection_method == 'keep_most_atoms', keep the part with the most atoms.
     """
     # output file path without extension
     output_file, fmt = os.path.splitext(os.path.abspath(input_file))

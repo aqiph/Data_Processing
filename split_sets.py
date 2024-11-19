@@ -15,7 +15,7 @@ from sklearn.model_selection import train_test_split
 
 class Splitter(object):
     """
-    Splitter
+    Splitter.
     """
 
     def __init__(self, X, stratify = None, seed = None):
@@ -29,8 +29,8 @@ class Splitter(object):
 
     def train_test(self, trainset_ratio):
         """
-        split X into trainset and testset, if self.stratify is not None, data is split in a stratified fashion
-        :param trainset_ratio: float, ratio of trainset
+        Split X into trainset and testset, if self.stratify is not None, data is split in a stratified fashion.
+        :param trainset_ratio: float, ratio of trainset.
         """
         assert trainset_ratio <= 1.0 and trainset_ratio >= 0.0, 'Error: trainset_ratio should between 0.0 and 1.0.'
         X_train, X_test = train_test_split(self.X, train_size = trainset_ratio, random_state = self.seed, stratify = self.stratify)
@@ -51,7 +51,7 @@ def indexes_to_bools(indexes, num_tot):
 
 def remove_unnamed_columns(df):
     """
-    remove unnamed columns
+    Remove unnamed columns.
     """
     unnamed_cols = df.columns.str.contains('Unnamed:')
     unnamed_cols_name = df.columns[unnamed_cols]
@@ -63,10 +63,10 @@ def remove_unnamed_columns(df):
 
 def split_sets_for_training(input_file, stratified_by = None, trainset_ratio = 0.8):
     """
-    split the set
-    :param input_file: str, path of the input file
-    :param stratified_by: str or None, column based on which to split data in a stratified fashion
-    :param trainset_ratio: float, ratio of trainset
+    Split the set.
+    :param input_file: str, path of the input file.
+    :param stratified_by: str or None, column based on which to split data in a stratified fashion.
+    :param trainset_ratio: float, ratio of trainset.
     """
     # folder
     folder, _ = os.path.split(os.path.abspath(input_file))

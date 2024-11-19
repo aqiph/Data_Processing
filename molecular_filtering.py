@@ -39,7 +39,7 @@ def check_SMILES(smiles):
 
 def main(args):
     """
-    Filter molecules based on given rules
+    Filter molecules based on given rules.
     """
     # output file
     folder, basename = os.path.split(os.path.abspath(args.input_file))

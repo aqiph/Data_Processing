@@ -14,7 +14,7 @@ import numpy as np
 
 def remove_unnamed_columns(df):
     """
-    remove unnamed columns
+    Remove unnamed columns.
     """
     unnamed_cols = df.columns.str.contains('Unnamed:')
     unnamed_cols_name = df.columns[unnamed_cols]

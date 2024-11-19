@@ -24,8 +24,8 @@ from util import sdf_to_csv, json_to_csv, combine_files, split_file, add_SMILES,
 
 def run_cleanup_format(input_file):
     """
-    call cleanup_format to clean up format
-    :param input_file: str, path of the input file
+    Call cleanup_format to clean up format.
+    :param input_file: str, path of the input file.
     """
     # file 
     df, folder, output_file = read_input(input_file)    
@@ -58,8 +58,8 @@ def run_cleanup_format(input_file):
 
 def run_cleanup_SMILES(input_file):
     """
-    call cleanup_SMILES to clean up SMILES
-    :param input_file: str, path of the input file
+    Call cleanup_SMILES to clean up SMILES.
+    :param input_file: str, path of the input file.
     """
     smiles_column_name = 'SMILES'
     cleanup_chirality = True
@@ -71,8 +71,8 @@ def run_cleanup_SMILES(input_file):
 
 def run_cleanup_duplicates(input_file):
     """
-    call cleanup_duplicates to clean up duplicates
-    :param input_file: str, path of the input file
+    Call cleanup_duplicates to clean up duplicates.
+    :param input_file: str, path of the input file.
     """
     by_column = ['Cleaned_SMILES']
     
@@ -81,8 +81,8 @@ def run_cleanup_duplicates(input_file):
 
 def run_add_labels(input_file):
     """
-    call add labels
-    :param input_file: str, path of the input file
+    Call add labels.
+    :param input_file: str, path of the input file.
     """
     task = 'classification'
 
@@ -98,8 +98,8 @@ def run_add_labels(input_file):
 
 def run_analysis(input_file, task = ''):
     """
-    call analysis
-    :param input_file: str, path of the input file
+    Call analysis.
+    :param input_file: str, path of the input file.
     """
     # analyze assay
     if task == 'analyze_assay':
@@ -116,7 +116,7 @@ def run_analysis(input_file, task = ''):
 
 def run_hit_rate_analysis(input_file):
     """
-    calculate hit counts and hit rates, plot them
+    Calculate hit counts and hit rates, plot them.
     """
     hit_counts_in_HTS(input_file, id_column_name='Analog_ID')
 
@@ -126,8 +126,8 @@ def run_hit_rate_analysis(input_file):
 
 def run_util(input_file, task = ''):
     """
-    call util
-    :param input_file: str, path of the input file
+    Call util.
+    :param input_file: str, path of the input file.
     """
     if task == 'sdf_to_csv':
         ID_name = 'hit_id'
@@ -170,8 +170,8 @@ if __name__ == '__main__':
     # input_file = 'tests/example.csv'
     # run_cleanup_format(input_file)
 
-    # input_file = 'tests/example_format.csv'
-    # run_cleanup_SMILES(input_file)
+    input_file = 'tests/example_format.csv'
+    run_cleanup_SMILES(input_file)
 
     # input_file = 'tests/example_format_CSP.csv'
     # run_cleanup_duplicates(input_file)
@@ -183,9 +183,9 @@ if __name__ == '__main__':
     # task = 'value_distribution'
     # run_analysis(input_file, task)
 
-    input_file = 'tests/test_add_SMILES.csv'
-    task = 'add_SMILES'
-    run_util(input_file, task)
+    # input_file = 'tests/test_add_SMILES.csv'
+    # task = 'add_SMILES'
+    # run_util(input_file, task)
 
     # input_file = 'tests/test_hit_rate_analysis.csv'
     # run_hit_rate_analysis(input_file)

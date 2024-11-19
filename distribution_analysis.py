@@ -18,10 +18,10 @@ font.set_size(12)
 
 def analyze_assay(input_file, assay_column_name, value_column_name):
     """
-    Get unique assays in the 'assay_column_name' column, box plot of each assay
-    :param input_file: str, path of the input file
-    :param assay_column_name: str, name of assay column to be analyzed
-    :param value_column_name: str, name of value column to be analyzed
+    Get unique assays in the 'assay_column_name' column, box plot of each assay.
+    :param input_file: str, path of the input file.
+    :param assay_column_name: str, name of assay column to be analyzed.
+    :param value_column_name: str, name of value column to be analyzed.
     """
     # output file path without extension
     output_file, fmt = os.path.splitext(os.path.abspath(input_file))
@@ -53,11 +53,11 @@ def analyze_assay(input_file, assay_column_name, value_column_name):
  
 def value_distribution(input_file, value_column_name, useLog = False, range = [0, 10]):
     """
-    plot distribution for values in the 'value_column_name' column
-    :param input_file: str, path of the input file
-    :param value_column_name: str, name of value column to be analyzed
-    :param useLog: bool, whether to use log or raw value
-    :param range: list of two ints, range of the plot
+    Plot distribution for values in the 'value_column_name' column.
+    :param input_file: str, path of the input file.
+    :param value_column_name: str, name of value column to be analyzed.
+    :param useLog: bool, whether to use log or raw value.
+    :param range: list of two ints, range of the plot.
     """
     # output file path without extension
     output_file, fmt = os.path.splitext(os.path.abspath(input_file))

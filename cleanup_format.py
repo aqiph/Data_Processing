@@ -14,8 +14,8 @@ import numpy as np
 
 def read_input(input_file):
     """
-    read input file
-    :param input_file: str, path of the input file
+    Read input file.
+    :param input_file: str, path of the input file.
     """
     folder, basename = os.path.split(os.path.abspath(input_file))
     output_file, fmt = os.path.splitext(basename) # basename without extension
@@ -33,12 +33,12 @@ def read_input(input_file):
 
 def operate_ID_SMILES_Value(df, id_column_name = None, smiles_column_name = 'SMILES', value_column_name = None, dropna_column_names = ['SMILES']):
     """
-    rename or add ID, SMILES and Value columns
-    :param df: pandas.DataFrame object, input dataframe
+    Rename or add ID, SMILES and Value columns.
+    :param df: pandas.DataFrame object, input dataframe.
     :param id_column_name: str or None, the name of the ID column; if None, generate ints as new IDs.
-    :param smiles_column_name: str, the name of the SMILES column
-    :param value_column_name: str or None, the name of the Value column; if None, generate an empty column
-    :param dropna_column_names: list of str, the column names depend on which to drop nan value
+    :param smiles_column_name: str, the name of the SMILES column.
+    :param value_column_name: str or None, the name of the Value column; if None, generate an empty column.
+    :param dropna_column_names: list of str, the column names depend on which to drop nan value.
     """    
     columns = df.columns.tolist()
     
@@ -75,12 +75,12 @@ def operate_ID_SMILES_Value(df, id_column_name = None, smiles_column_name = 'SMI
 
 def operate_Assay_AssayParameter(df, assay_column_name = None, assay = '', assayParameter_column_name = None, assayParameter = ''):
     """
-    rename or add Assay and Assay_Parameter columns
-    :param df: pandas.DataFrame object, input dataframe
-    :param assay_column_name: str or None, the name of the Assay column; if None, generate Assay column according to 'assay'
-    :param assay: str, assay name in the Assay column
-    :param assayParameter_column_name: str or None, the name of the Assay_Parameter column; if None, generate Assay_Parameter column according to 'assayParameter'
-    :param assayParameter: str, assay parameter name in the Assay_Parameter column
+    Rename or add Assay and Assay_Parameter columns.
+    :param df: pandas.DataFrame object, input dataframe.
+    :param assay_column_name: str or None, the name of the Assay column; if None, generate Assay column according to 'assay'.
+    :param assay: str, assay name in the Assay column.
+    :param assayParameter_column_name: str or None, the name of the Assay_Parameter column; if None, generate Assay_Parameter column according to 'assayParameter'.
+    :param assayParameter: str, assay parameter name in the Assay_Parameter column.
     """
     columns = df.columns.tolist()
     
@@ -109,20 +109,20 @@ def operate_Assay_AssayParameter(df, assay_column_name = None, assay = '', assay
 
 def operate_Operator_Value_Units(df, operator_column_name = None, operator = '=', value_column_name = 'Value', unit_column_name = None, unit = ''):
     """
-    rename or add Operator and Units columns
-    :param df: pandas.DataFrame object, input dataframe
-    :param operator_column_name: str or None, the name of the Operator column; if None, generate Operator column according to operator
-    :param operator: str, operator name in the Operator column
-    :param value_column_name: str, the name of the Value column
-    :param unit_column_name: str or None, the name of the Units column; if None, generate Units column according to unit
-    :param unit: str, unit name in the Units column
+    Rename or add Operator and Units columns.
+    :param df: pandas.DataFrame object, input dataframe.
+    :param operator_column_name: str or None, the name of the Operator column; if None, generate Operator column according to operator.
+    :param operator: str, operator name in the Operator column.
+    :param value_column_name: str, the name of the Value column.
+    :param unit_column_name: str or None, the name of the Units column; if None, generate Units column according to unit.
+    :param unit: str, unit name in the Units column.
     """
     columns = df.columns.tolist()
     
     # change Operator column name, or add Operator column according to 'operator' or splitting from Value column
-    if operator_column_name is None or operator_column_name == 'None':
+    if operator_column_name is None or operator_column_name == 'None': # operator_column_name is not provided, use input operator
         df['Operator'] = operator
-    else:
+    else: # use operator in the operator_column_name column
         assert operator_column_name in columns, 'Error: Invalid input Operator column name'
         if operator_column_name == value_column_name: # operator and value in the same cell
             df['Value'] = df['Value'].apply(lambda x: split_operator_value(x))
@@ -146,54 +146,12 @@ def operate_Operator_Value_Units(df, operator_column_name = None, operator = '='
     return df
 
 
-def to_str(value):
-    """
-    change value to a string if it is not np.nan or empty string, else keep it as np.nan
-    """
-    s = str(value).strip()
-    if s in {'', 'nan'}:
-        return np.nan
-    return s
-
-
-def split_operator_value(raw):
-    """
-    Helper function for cleanup_format
-    split operator and value
-    :param raw: str, original value
-    :return: list, [operator, value]
-    """
-    raw = str(raw).strip()
-    
-    if raw[:2] in {'<=', '>='}:
-        operator, number = raw[:2], raw[2:]
-    elif raw[:1] in {'<', '>', '='}:
-        operator, number = raw[:1], raw[1:]
-    elif raw[0].isdigit():
-        operator, number = '=', raw        
-    else:
-        return ['=', raw]
-    
-    number = float(number.replace(',', '').replace(' ', ''))
-    return operator, number
-
-
-def remove_unnamed_columns(df):
-    """
-    remove unnamed columns
-    """
-    unnamed_cols = df.columns.str.contains('Unnamed:')
-    unnamed_cols_name = df.columns[unnamed_cols]
-    df.drop(unnamed_cols_name, axis=1, inplace=True)
-    return df
-
-
 def write_output(df, output_file, use_standard_format=False):
     """
-    write to output file
-    :param df: pandas.DataFrame object, input dataframe
-    :param output_file: str, output file path without extension
-    :param use_standard_format: bool, whether to change columns to standard format or not
+    Write to output file.
+    :param df: pandas.DataFrame object, input dataframe.
+    :param output_file: str, output file path without extension.
+    :param use_standard_format: bool, whether to change columns to standard format or not.
     """
     df = df.reset_index(drop = True)
     print('Number of rows:', df.shape[0])
@@ -202,6 +160,60 @@ def write_output(df, output_file, use_standard_format=False):
     else:
         df = remove_unnamed_columns(df)
     df.to_csv('{}_format.csv'.format(output_file))
+
+
+def to_str(value):
+    """
+    Helper function.
+    Change value to a string if it is not np.nan or empty string, else keep it as np.nan.
+    """
+    s = str(value).strip()
+    if s in {'', 'nan'}:
+        return np.nan
+    return s
+
+
+def process_multiple_values(df):
+    """
+    Helper function for operate_ID_SMILES_Value.
+
+    """
+    pass
+
+
+def split_operator_value(raw):
+    """
+    Helper function for operate_Operator_Value_Units.
+    Split operator and value.
+    :param raw: str, original value.
+    :return: list, [operator, value].
+    """
+    raw = str(raw).strip()
+
+    # split operator and value
+    if raw[:2] in {'<=', '>='}:
+        operator, number = raw[:2], raw[2:]
+    elif raw[:1] in {'<', '>', '='}:
+        operator, number = raw[:1], raw[1:]
+    elif raw[0].isdigit():
+        operator, number = '=', raw        
+    else:
+        return '=', raw   # other type of value that cannot be converted to float
+
+    # process number
+    number = float(number.replace(',', '').replace(' ', ''))
+    return operator, number
+
+
+def remove_unnamed_columns(df):
+    """
+    Helper function for write_output.
+    Remove unnamed columns.
+    """
+    unnamed_cols = df.columns.str.contains('Unnamed:')
+    unnamed_cols_name = df.columns[unnamed_cols]
+    df.drop(unnamed_cols_name, axis=1, inplace=True)
+    return df
 
 
 

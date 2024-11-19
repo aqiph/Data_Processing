@@ -22,11 +22,11 @@ from tools import remove_unnamed_columns
 
 def get_hit_count(input_file, input_library, id_column_name='ID', print_hits=False):
     """
-    Calculate the number of hits
-    :param input_file: str, path of the file containing selected/active compounds
-    :param input_library: str, path of the library file
-    :param id_column_name: str, name of the ID column in the input_file
-    :param print_hits: bool, whether to print the hits in this library or not
+    Calculate the number of hits.
+    :param input_file: str, path of the file containing selected/active compounds.
+    :param input_library: str, path of the library file.
+    :param id_column_name: str, name of the ID column in the input_file.
+    :param print_hits: bool, whether to print the hits in this library or not.
     """
     df_active = pd.read_csv(input_file)
     df_library = pd.read_csv(input_library)
@@ -54,10 +54,10 @@ def get_hit_count(input_file, input_library, id_column_name='ID', print_hits=Fal
 
 def hit_counts_in_HTS(input_file, id_column_name='ID', print_hits=False):
     """
-    Calculate the number of hits and hit rate in each sublibrary of HTS library
-    :param input_file: str, path of the file containing selected/active compounds
-    :param id_column_name: str, name of the ID column in the input_file
-    :param print_hits: bool, whether to print the hits in this library or not
+    Calculate the number of hits and hit rate in each sublibrary of HTS library.
+    :param input_file: str, path of the file containing selected/active compounds.
+    :param id_column_name: str, name of the ID column in the input_file.
+    :param print_hits: bool, whether to print the hits in this library or not.
     """
     # output file path without extension
     output_file = os.path.splitext(os.path.abspath(input_file))[0]
@@ -101,9 +101,9 @@ def hit_counts_in_HTS(input_file, id_column_name='ID', print_hits=False):
 
 def plot_stat(input_file, remove_zero=True):
     """
-    plot hit counts and hit rates
-    :param input_file: str, path of the file containing library name, hit counts and hit rates
-    :param remove_zero: bool, whether to remove rows with zero count or not
+    Plot hit counts and hit rates.
+    :param input_file: str, path of the file containing library name, hit counts and hit rates.
+    :param remove_zero: bool, whether to remove rows with zero count or not.
     """
     # output file path without extension
     output_file = os.path.splitext(os.path.abspath(input_file))[0]

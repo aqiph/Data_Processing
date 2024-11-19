@@ -18,13 +18,13 @@ from tools import remove_unnamed_columns
 ### Change other format to .csv ###
 def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', output_file=None, start_id = 0, **kwargs):
     """
-    read input .sdf file, convert to .csv file
-    :param input_file: str, path of the input .sdf file
-    :param ID_name: str, name of ID in .sdf file
-    :param SMILES_name: str, name of SMILES in .sdf file
-    :param library_name: str, library name
-    :param output_file: str, name of the output .csv file
-    :param start_id: int, if ID is not specified in .sdf file, ID is generated starting with start_id
+    Read input .sdf file, convert to .csv file.
+    :param input_file: str, path of the input .sdf file.
+    :param ID_name: str, name of ID in .sdf file.
+    :param SMILES_name: str, name of SMILES in .sdf file.
+    :param library_name: str, library name.
+    :param output_file: str, name of the output .csv file.
+    :param start_id: int, if ID is not specified in .sdf file, ID is generated starting with start_id.
     """
     # output file
     folder, basename = os.path.split(os.path.abspath(input_file))
@@ -87,10 +87,10 @@ def sdf_to_csv(input_file, ID_name='id', SMILES_name='smiles', library_name='', 
 
 def json_to_csv(input_file, output_file=None, format='json'):
     """
-    read input .json file, convert to .csv file
-    :param input_file: str, path of the input .json file
-    :param output_file: str, name of the output .csv file
-    :param format: str, 'json' or 'jsonl'
+    Read input .json file, convert to .csv file.
+    :param input_file: str, path of the input .json file.
+    :param output_file: str, name of the output .csv file.
+    :param format: str, 'json' or 'jsonl'.
     """
     # output file
     folder, basename = os.path.split(os.path.abspath(input_file))
@@ -123,10 +123,10 @@ def json_to_csv(input_file, output_file=None, format='json'):
 ### Combine files and split a file ###
 def combine_files(input_file_list, columns = None, output_file = None):
     """
-    combine multiple data sets
-    :param input_file_list: list of strs, paths of the input files
-    :param columns: columns in the output_file
-    :param output_file: str or None, pre-defined output file name
+    Combine multiple data sets.
+    :param input_file_list: list of strs, paths of the input files.
+    :param columns: columns in the output_file.
+    :param output_file: str or None, pre-defined output file name.
     """
     # output name
     folder, basename = os.path.split(os.path.abspath(input_file_list[0]))
@@ -158,10 +158,10 @@ def combine_files(input_file_list, columns = None, output_file = None):
 
 def split_file(input_file, splitting_idx, output_file = None):
     """
-    split input_file into two files
-    :param input_file: str, path of the input file
-    :param splitting_idx: int, the number of rows in the first file
-    :param output_file: str or None, pre-defined output file name
+    Split input_file into two files.
+    :param input_file: str, path of the input file.
+    :param splitting_idx: int, the number of rows in the first file.
+    :param output_file: str or None, pre-defined output file name.
     """
     # output name
     folder, basename = os.path.split(os.path.abspath(input_file))
@@ -202,7 +202,8 @@ def add_SMILES(input_file_query, id_column_name_query='ID', input_file_SMILES=No
     if id_column_name_query != 'ID':
         df_query.rename(columns={id_column_name_query: 'ID'}, inplace=True)
     if input_file_SMILES is None:
-        input_file_SMILES = '/Users/guohan/Documents/Projects/Datasets/HTS/Combination/forGNN/HTS_forGNN_446663.csv'
+        # input_file_SMILES = '/Users/guohan/Documents/Projects/Datasets/HTS/Combination/forGNN/HTS_forGNN_446663.csv'
+        input_file_SMILES = '/Users/guohan/Documents/Projects/Datasets/HTS/Combination/forGeneralUse/HTS_forGeneralUse_446664.csv'
     df_SMILES = pd.read_csv(input_file_SMILES)
     df_SMILES = pd.DataFrame(df_SMILES, columns=['ID', 'SMILES'])
 
@@ -220,11 +221,11 @@ def add_SMILES(input_file_query, id_column_name_query='ID', input_file_SMILES=No
 ### Get subset ###
 def get_subset(input_file, num_cpd, method = 'random', output_file = None):
     """
-    get subset
-    :param input_file: str, path of the input file
-    :param num_cpd: int, the number of compounds
-    :param method: str, the way to select subset: random: randomly selected; an int: the first id of continuous rows
-    :param output_file: str or None, pre-defined output file name
+    Get subset.
+    :param input_file: str, path of the input file.
+    :param num_cpd: int, the number of compounds.
+    :param method: str, the way to select subset: random: randomly selected; an int: the first id of continuous rows.
+    :param output_file: str or None, pre-defined output file name.
     """
     # output name
     folder, basename = os.path.split(os.path.abspath(input_file))
