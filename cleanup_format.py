@@ -57,12 +57,16 @@ def operate_ID_SMILES_Value(df, id_column_name = None, smiles_column_name = 'SMI
     df['SMILES'] = df['SMILES'].apply(lambda v: to_str(v))
     
     # change Value column name or add Value column
-    if value_column_name is None or value_column_name == 'None':
+    if value_column_name is None or value_column_name == 'None': # value_column_name is not specified.
         df['Value'] = np.nan
     else:
         assert value_column_name in columns, 'Error: Invalid input Value column name'
-        df.rename(columns = {value_column_name:'Value'}, inplace = True)
-    
+        # process multiple values in the same row, split by ';', explode the value column.
+        df['Value'] = df[value_column_name].astype(str).str.split(';')
+        df = df.explode(column='Value')
+        df.drop(value_column_name, axis=1)
+        df['Value'] = df['Value'].apply(lambda v: to_str(v))   # convert Value to str, except np.nan
+
     # drop nan
     df.dropna(subset = dropna_column_names, how = 'any', inplace = True)
     
@@ -125,7 +129,7 @@ def operate_Operator_Value_Units(df, operator_column_name = None, operator = '='
     else: # use operator in the operator_column_name column
         assert operator_column_name in columns, 'Error: Invalid input Operator column name'
         if operator_column_name == value_column_name: # operator and value in the same cell
-            df['Value'] = df['Value'].apply(lambda x: split_operator_value(x))
+            df['Value'] = df[value_column_name].apply(lambda x: split_operator_value(x))
             df[['Operator', 'Value']] = pd.DataFrame(df['Value'].values.tolist())
         else:
             df.rename(columns = {operator_column_name:'Operator'}, inplace = True)
@@ -173,14 +177,6 @@ def to_str(value):
     return s
 
 
-def process_multiple_values(df):
-    """
-    Helper function for operate_ID_SMILES_Value.
-
-    """
-    pass
-
-
 def split_operator_value(raw):
     """
     Helper function for operate_Operator_Value_Units.
@@ -189,6 +185,8 @@ def split_operator_value(raw):
     :return: list, [operator, value].
     """
     raw = str(raw).strip()
+    if raw in {'', 'nan'}:
+        return '=', np.nan
 
     # split operator and value
     if raw[:2] in {'<=', '>='}:
@@ -226,7 +224,7 @@ if __name__ == '__main__':
     id_column_name = 'Compound ID'
     smiles_column_name = 'SMILES'
     value_column_name = 'EC50 (nM)'
-    dropna_column_names = ['SMILES']
+    dropna_column_names = ['Value']
     df = operate_ID_SMILES_Value(df, id_column_name, smiles_column_name, value_column_name, dropna_column_names)
     
     assay_column_name = None
