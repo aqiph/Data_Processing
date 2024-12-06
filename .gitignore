@@ -17,3 +17,4 @@ __pycache__/
 # Others
 obsolete/
 tests/
+utils/tests

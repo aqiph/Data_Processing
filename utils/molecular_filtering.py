@@ -10,10 +10,13 @@ import os, sys
 import argparse
 import numpy as np
 import pandas as pd
-
 from rdkit import Chem
 from rdkit.Chem.Descriptors import ExactMolWt
-
+path_list = sys.path
+module_path = '/Users/guohan/Documents/Codes/Data_Processing/utils'
+if module_path not in sys.path:
+    sys.path.append(module_path)
+    print('Add module path')
 from tools import remove_unnamed_columns
 
 
@@ -89,6 +92,7 @@ def get_parser():
     args = argparser.parse_args()
 
     return args
+
 
 
 if __name__ == '__main__':

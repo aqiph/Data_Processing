@@ -102,5 +102,5 @@ def split_sets_for_training(input_file, stratified_by = None, trainset_ratio = 0
 
 
 if __name__ == '__main__':
-    input_file = 'tests/example_noIndex_split_train_test.csv'
+    input_file = 'tests/example_split_train_test.csv'
     split_sets_for_training(input_file, stratified_by='Label', trainset_ratio = 0.8)

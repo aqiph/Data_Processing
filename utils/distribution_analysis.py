@@ -50,6 +50,8 @@ def analyze_assay(input_file, assay_column_name, value_column_name):
     plt.ylim([0.0, 2000])
     bplot.figure.savefig(output_file_boxplot, format = 'pdf')
 
+    plt.close()
+
  
 def value_distribution(input_file, value_column_name, useLog = False, range = [0, 10]):
     """
@@ -92,7 +94,6 @@ def value_distribution(input_file, value_column_name, useLog = False, range = [0
     plt.yticks(fontproperties=font)
     
     plt.savefig(output_file_distribution, dpi = 300)
-    plt.show()
     plt.close()
 
     return df
@@ -110,10 +111,10 @@ def to_float(v):
 if __name__ == '__main__':
 
     # analyze assay
-    # input_file = 'tests/example_format.csv'
-    # assay_column_name = 'Assay_Parameter'
-    # value_column_name = 'Value'
-    # analyze_assay(input_file, assay_column_name, value_column_name)
+    input_file = 'tests/example_format.csv'
+    assay_column_name = 'Assay_Parameter'
+    value_column_name = 'Value'
+    analyze_assay(input_file, assay_column_name, value_column_name)
 
     # plot value distribution
     input_file = 'tests/example_format.csv'

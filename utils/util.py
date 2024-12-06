@@ -6,11 +6,15 @@ Created on Thu May 19 17:35:12 2022
 @author: guohan
 """
 
-import os
+import os, sys
 import pandas as pd
 import numpy as np
 import json
 from rdkit import Chem
+module_path = '/Users/guohan/Documents/Codes/Data_Processing/utils'
+if module_path not in sys.path:
+    sys.path.append(module_path)
+    print('Add module path')
 from tools import remove_unnamed_columns
 
 
@@ -189,35 +193,6 @@ def split_file(input_file, splitting_idx, output_file = None):
     df_2.to_csv(output_file_2)
 
 
-### Add SMILES to the query file ###
-def add_SMILES(input_file_query, id_column_name_query='ID', input_file_SMILES=None):
-    """
-    Add SMILES for compounds in input_file_query from SMILES in input_file_SMILES.
-    :param input_file_query: str, path of the query compounds.
-    :param id_column_name_query: str, name of the ID column in input_file_query
-    :param input_file_SMILES: str, path of the input file containing ID and SMILES.
-    """
-    # files
-    df_query = pd.read_csv(input_file_query)
-    if id_column_name_query != 'ID':
-        df_query.rename(columns={id_column_name_query: 'ID'}, inplace=True)
-    if input_file_SMILES is None:
-        # input_file_SMILES = '/Users/guohan/Documents/Projects/Datasets/HTS/Combination/forGNN/HTS_forGNN_446663.csv'
-        input_file_SMILES = '/Users/guohan/Documents/Projects/Datasets/HTS/Combination/forGeneralUse/HTS_forGeneralUse_446664.csv'
-    df_SMILES = pd.read_csv(input_file_SMILES)
-    df_SMILES = pd.DataFrame(df_SMILES, columns=['ID', 'SMILES'])
-
-    # merge
-    df = pd.merge(df_query, df_SMILES, how='left', on=['ID'])
-
-    # write output file
-    df = df.reset_index(drop=True)
-    print('Number of rows in the file:', df.shape[0])
-    df = remove_unnamed_columns(df)
-    output_file = f'{os.path.splitext(input_file_query)[0]}_SMILES_{df.shape[0]}.csv'
-    df.to_csv(output_file)
-
-
 ### Get subset ###
 def get_subset(input_file, num_cpd, method = 'random', output_file = None):
     """
@@ -253,7 +228,36 @@ def get_subset(input_file, num_cpd, method = 'random', output_file = None):
     print('Number of rows:', df_subset.shape[0])
     df_subset = remove_unnamed_columns(df_subset)
     df_subset.to_csv(output_file)
-    
+
+
+### Add SMILES to the query file ###
+def add_SMILES(input_file_query, id_column_name_query='ID', input_file_SMILES=None):
+    """
+    Add SMILES for compounds in input_file_query from SMILES in input_file_SMILES.
+    :param input_file_query: str, path of the query compounds.
+    :param id_column_name_query: str, name of the ID column in input_file_query
+    :param input_file_SMILES: str, path of the input file containing ID and SMILES.
+    """
+    # files
+    df_query = pd.read_csv(input_file_query)
+    if id_column_name_query != 'ID':
+        df_query.rename(columns={id_column_name_query: 'ID'}, inplace=True)
+    if input_file_SMILES is None:
+        # input_file_SMILES = '/Users/guohan/Documents/Projects/Datasets/HTS/Combination/forGNN/HTS_forGNN_446663.csv'
+        input_file_SMILES = '/Users/guohan/Documents/Projects/Datasets/HTS/Combination/forGeneralUse/HTS_forGeneralUse_446664.csv'
+    df_SMILES = pd.read_csv(input_file_SMILES)
+    df_SMILES = pd.DataFrame(df_SMILES, columns=['ID', 'SMILES'])
+
+    # merge
+    df = pd.merge(df_query, df_SMILES, how='left', on=['ID'])
+
+    # write output file
+    df = df.reset_index(drop=True)
+    print('Number of rows in the file:', df.shape[0])
+    df = remove_unnamed_columns(df)
+    output_file = f'{os.path.splitext(input_file_query)[0]}_SMILES_{df.shape[0]}.csv'
+    df.to_csv(output_file)
+
 
 
 if __name__ == '__main__':
@@ -283,18 +287,19 @@ if __name__ == '__main__':
     # split_file(input_file, splitting_idx, output_file = output_file)
 
 
-    ### Add SMILES to the query file ###
-    input_file_query = 'tests/test_add_SMILES.csv'
-    id_column_name_query = 'Compound_ID'
-    add_SMILES(input_file_query, id_column_name_query=id_column_name_query, input_file_SMILES=None)
-
-
     ### Get subset ###
     # input_file = 'tests/example_noIndex.csv'
     # num_cpd = 10
     # method = 'random'
     # output_file = 'subset.csv'
     # get_subset(input_file, num_cpd, method = method, output_file = output_file)
+
+
+    ### Add SMILES to the query file ###
+    input_file_query = 'tests/test_add_SMILES.csv'
+    id_column_name_query = 'Compound_ID'
+    input_file_SMILES = None
+    add_SMILES(input_file_query, id_column_name_query=id_column_name_query, input_file_SMILES=input_file_SMILES)
 
 
 

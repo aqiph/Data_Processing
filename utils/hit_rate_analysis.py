@@ -13,11 +13,12 @@ from matplotlib.font_manager import FontProperties
 font = FontProperties()
 font.set_size(12)
 path_list = sys.path
-module_path = '/Users/guohan/Documents/Codes/Data_Processing'
+module_path = '/Users/guohan/Documents/Codes/Data_Processing/utils'
 if module_path not in sys.path:
     sys.path.append(module_path)
     print('Add module path')
 from tools import remove_unnamed_columns
+
 
 
 def get_hit_count(input_file, input_library, id_column_name='ID', print_hits=False):
@@ -138,7 +139,7 @@ def plot_stat(input_file, remove_zero=True):
 
 if __name__ == '__main__':
     input_file = 'tests/test_hit_rate_analysis.csv'
-    hit_counts_in_HTS(input_file, id_column_name='Analog_ID')
+    hit_counts_in_HTS(input_file, id_column_name='Analog_ID', print_hits=False)
 
-    # input_file = 'tests/test_hit_rate_analysis_stat.csv'
-    # plot_stat(input_file, remove_zero=True)
+    input_file = 'tests/test_hit_rate_analysis_stat.csv'
+    plot_stat(input_file, remove_zero=True)
