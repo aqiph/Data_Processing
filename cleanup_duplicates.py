@@ -74,14 +74,16 @@ def remove_unnamed_columns(df):
     return df
 
 
-def remove_duplicates(input_file, by_column = ['Cleaned_SMILES'], keep = 'first', id_column_name = 'ID', smiles_column_name = 'SMILES'):
+def remove_duplicates(input_file, by_column = ['Cleaned_SMILES'], dedupe_method = 'mean',
+                      id_column_name = 'ID', smiles_column_name = 'SMILES', value_column_name = 'Value'):
     """
     Clean up smiles with GChem ChEMBL_Structure_Pipeline, add a new column 'Cleaned_SMILES'.
     :param input_file: str, path of the input file.
     :param by_column: list of str, list of column names according to which to group the input file.
-    :param keep: str, how to keep data if there are duplicates.
+    :param dedupe_method: str, how to resolve duplicates. Must be one of 'mean', 'max', 'min'.
     :param id_column_name: str, the name of the ID column.
     :param smiles_column_name: str, the name of the SMILES column.
+    :param value_column_name: str or None, the name of the Value column; if None, generate an empty column.
     """
     # output file path without extension
     output_file, fmt = os.path.splitext(os.path.abspath(input_file))
@@ -100,7 +102,10 @@ def remove_duplicates(input_file, by_column = ['Cleaned_SMILES'], keep = 'first'
     # remove duplicates
     print('The number of rows before removing duplicates:', df.shape[0])
 
-    df.drop_duplicates(by_column, keep = keep, inplace = True, ignore_index = True)
+    if dedupe_method not in {'mean', 'max', 'min'}:
+        raise ValueError('Error: Invalid dedupe_method')
+    df[value_column_name] = df.groupby(by_column)[value_column_name].transform(dedupe_method)
+    df.drop_duplicates(by_column, keep='first', inplace=True, ignore_index=True)
     df = df.reset_index(drop = True)
     
     # write to file
@@ -112,10 +117,11 @@ def remove_duplicates(input_file, by_column = ['Cleaned_SMILES'], keep = 'first'
 
 if __name__ == '__main__':
     
-    input_file = 'tests/example_noIndex_format_CSP.csv'
+    input_file = 'tests/example_format_CSP.csv'
     by_column = ['Cleaned_SMILES']
     
-    remove_duplicates(input_file, by_column, keep = 'first', id_column_name = 'ID', smiles_column_name = 'SMILES')
+    remove_duplicates(input_file, by_column, dedupe_method = 'mean',
+                      id_column_name = 'ID', smiles_column_name = 'SMILES', value_column_name = 'Value')
     
     
     
