@@ -91,7 +91,7 @@ def batch_generate_boltz_yaml(output_dir, input_file_polymers, input_file_SMILES
                 sequence = info.get("sequence").strip()
                 if not chain_id or not sequence:
                     raise ValueError(f"Missing chain_id or sequence in {entry_type} entry")
-                polymers.append({entry_type: {"id": chain_id, "sequence": sequence}})
+                polymers.append({entry_type: info})
 
     # process SMILES
     df = pd.read_csv(input_file_SMILES)
