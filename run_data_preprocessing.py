@@ -74,8 +74,8 @@ def run_cleanup_duplicates(input_file):
     :param input_file: str, path of the input file.
     """
     by_column = ['Cleaned_SMILES']
-    dedupe_method = 'mean'
-    remove_duplicates(input_file, by_column, dedupe_method,
+    deduplication_method = 'mean'
+    remove_duplicates(input_file, by_column, deduplication_method,
                       id_column_name='ID', smiles_column_name='SMILES', value_column_name='Value')
 
 
