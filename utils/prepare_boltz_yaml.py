@@ -20,7 +20,8 @@ def generate_boltz_yaml(output_dir, polymers, ligand_id, ligand_smiles, affinity
     :param polymers: list, list of polymers, using the format:
     [{"protein": {"id": "A", "sequence": "KLVFFKLV..."}},
     {"dna":     {"id": "B", "sequence": "ATGCATGC..."}},
-    {"rna":     {"id": "C", "sequence": "AUGCGAU..."}}]
+    {"rna":     {"id": "C", "sequence": "AUGCGAU..."}},
+    {"ligand":   {"id": "D", "smiles": "CCC1(C2..."}}]
     :param ligand_id: str, id of the ligand.
     :param ligand_smiles: str, SMILES of the ligand.
     :param affinity: bool, whether to include affinity in the yaml file.
@@ -65,7 +66,7 @@ def generate_boltz_yaml(output_dir, polymers, ligand_id, ligand_smiles, affinity
         yaml.dump(data, f)
 
 
-def batch_generate_boltz_yaml(output_dir, input_file_polymers, input_file_SMILES, id_column_name='ID', smiles_column_name='Cleaned_SMILES', affinity=True):
+def batch_generate_boltz_yaml(output_dir, input_file_polymers, input_file_SMILES, id_column_name='ID', smiles_column_name='Cleaned_SMILES', affinity=True, include_ligand=False):
     """
     Generate a directory of yaml files for Boltz-2.
     :param output_dir: str, path of the output directory.
@@ -78,6 +79,7 @@ def batch_generate_boltz_yaml(output_dir, input_file_polymers, input_file_SMILES
     os.makedirs(output_dir, exist_ok=True)
 
     # process polymers
+    allowed_entry_types = {"protein", "dna", "rna", "ligand"} if include_ligand else {"protein", "dna", "rna"}
     yaml = YAML()
     with open(input_file_polymers, "r") as f:
         doc = yaml.load(f)
@@ -86,11 +88,12 @@ def batch_generate_boltz_yaml(output_dir, input_file_polymers, input_file_SMILES
         # entry is a dict with a single key in ["protein", "dna", or "rna"], {<ENTITY_TYPE>: {"id": <CHAIN_ID>, "sequence": <sequence>}}
         for entry_type, info in entry.items():
             entry_type = entry_type.lower()
-            if entry_type in {"protein", "dna", "rna"}:
+            if entry_type in allowed_entry_types:
                 chain_id = info.get("id")
-                sequence = info.get("sequence").strip()
-                if not chain_id or not sequence:
-                    raise ValueError(f"Missing chain_id or sequence in {entry_type} entry")
+                sequence = info.get("sequence")
+                smiles = info.get("smiles")
+                if not chain_id or not (sequence or smiles):
+                    raise ValueError(f"Missing chain_id or sequence/smiles in {entry_type} entry")
                 polymers.append({entry_type: info})
 
     # process SMILES
@@ -112,4 +115,4 @@ if __name__ == "__main__":
     id_column_name = 'ID'
     smiles_column_name = 'SMILES'
     batch_generate_boltz_yaml(output_dir, input_file_polymers, input_file_SMILES, id_column_name, smiles_column_name,
-                              affinity=False)
+                              affinity=False, include_ligand=False)
