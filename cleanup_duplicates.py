@@ -104,7 +104,8 @@ def remove_duplicates(input_file, by_column = ['Cleaned_SMILES'], deduplication_
 
     if deduplication_method not in {'mean', 'max', 'min'}:
         raise ValueError('Error: Invalid deduplication_method')
-    df[value_column_name] = df.groupby(by_column)[value_column_name].transform(deduplication_method)
+    if value_column_name is not None:
+        df[value_column_name] = df.groupby(by_column)[value_column_name].transform(deduplication_method)
     df.drop_duplicates(by_column, keep='first', inplace=True, ignore_index=True)
     df = df.reset_index(drop = True)
     
@@ -121,7 +122,7 @@ if __name__ == '__main__':
     by_column = ['Cleaned_SMILES']
     
     remove_duplicates(input_file, by_column, deduplication_method = 'mean',
-                      id_column_name = 'ID', smiles_column_name = 'SMILES', value_column_name = 'Value')
+                      id_column_name = 'ID', smiles_column_name = 'SMILES', value_column_name = None)
     
     
     
