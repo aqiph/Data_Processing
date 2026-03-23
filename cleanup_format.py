@@ -63,6 +63,7 @@ def operate_ID_SMILES_Value(df, id_column_name = None, smiles_column_name = 'SMI
         assert value_column_name in columns, 'Error: Invalid input Value column name'
         # process multiple values in the same row, split by ';', explode the value column.
         df['Value'] = df[value_column_name].astype(str).str.split(';')
+        df = df.explode(column='Value')
         df['Value'] = df['Value'].astype(str).str.split('/')
         df = df.explode(column='Value')
         df.drop(value_column_name, axis=1)

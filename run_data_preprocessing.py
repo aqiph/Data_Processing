@@ -34,7 +34,7 @@ def run_cleanup_format(input_file):
     id_column_name = 'Compound ID'
     smiles_column_name = 'SMILES'
     value_column_name = 'EC50 (nM)'
-    dropna_column_names = ['SMILES']
+    dropna_column_names = ['SMILES', 'Value']
     df = operate_ID_SMILES_Value(df, id_column_name, smiles_column_name, value_column_name, dropna_column_names)
     
     # Assay, Assay_Parameter
@@ -162,14 +162,14 @@ if __name__ == '__main__':
     input_file = 'tests/example.csv'
     run_cleanup_format(input_file)
 
-    # input_file = 'tests/example_format.csv'
-    # run_cleanup_SMILES(input_file)
+    input_file = 'tests/example_format.csv'
+    run_cleanup_SMILES(input_file)
 
-    # input_file = 'tests/example_format_CSP.csv'
-    # run_cleanup_duplicates(input_file)
+    input_file = 'tests/example_format_CSP.csv'
+    run_cleanup_duplicates(input_file)
 
-    # input_file = 'tests/example_format_CSP_rmDuplicates.csv'
-    # run_add_labels(input_file)
+    input_file = 'tests/example_format_CSP_rmDuplicates.csv'
+    run_add_labels(input_file)
 
     # input_file = 'utils/tests/example_format.csv'
     # task = 'value_distribution'
