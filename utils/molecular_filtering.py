@@ -13,7 +13,7 @@ import pandas as pd
 from rdkit import Chem
 from rdkit.Chem.Descriptors import ExactMolWt
 path_list = sys.path
-module_path = '/Users/guohan/Documents/Codes/Data_Processing/utils'
+module_path = '/Users/hanguo/Documents/Codes/Data_Processing/utils'
 if module_path not in sys.path:
     sys.path.append(module_path)
     print('Add module path')

@@ -8,7 +8,7 @@ Created on Tue Apr 12 15:41:39 2022
 
 import os, sys
 path_list = sys.path
-module_path = '/Users/guohan/Documents/Codes/Data_Processing'
+module_path = '/Users/hanguo/Documents/Codes/Data_Processing'
 if module_path not in sys.path:
     sys.path.append(module_path)
     print('Add module path')
@@ -159,8 +159,8 @@ def run_util(input_file, task = ''):
 
 if __name__ == '__main__':
 
-    # input_file = 'tests/example.csv'
-    # run_cleanup_format(input_file)
+    input_file = 'tests/example.csv'
+    run_cleanup_format(input_file)
 
     # input_file = 'tests/example_format.csv'
     # run_cleanup_SMILES(input_file)
@@ -175,9 +175,9 @@ if __name__ == '__main__':
     # task = 'value_distribution'
     # run_analysis(input_file, task)
 
-    input_file = 'utils/tests/test_add_SMILES.csv'
-    task = 'add_SMILES'
-    run_util(input_file, task)
+    # input_file = 'utils/tests/test_add_SMILES.csv'
+    # task = 'add_SMILES'
+    # run_util(input_file, task)
 
 
 
