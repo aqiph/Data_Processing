@@ -215,7 +215,7 @@ def cleanup_smiles(input_file, smiles_column_name, cleanup_chirality = False, pr
 
 if __name__ == '__main__':
     
-    input_file = 'tests/example_format.csv'
+    input_file = 'examples/example_format.csv'
     smiles_column_name = 'SMILES'
     cleanup_chirality = True
     process_disconnection = True

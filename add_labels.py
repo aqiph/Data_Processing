@@ -124,7 +124,7 @@ def remove_unnamed_columns(df):
 
 if __name__ == '__main__':
     
-    input_file = 'tests/example_noIndex_format_CSP_rmDuplicates.csv'
+    input_file = 'examples/example_format_CSP_rmDuplicates.csv'
     task = 'classification'
 
     value_column_name = 'Value'

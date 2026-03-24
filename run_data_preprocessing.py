@@ -132,7 +132,7 @@ def run_util(input_file, task = ''):
 
     # Combine files
     elif task == 'combine_files':
-        input_file_list = ['utils/tests/example.csv', 'utils/tests/example2.csv', 'utils/tests/example3.csv']
+        input_file_list = ['utils/examples/example.csv', 'utils/examples/example2.csv', 'utils/examples/example3.csv']
         output_file = 'combination.csv'
         combine_files(input_file_list, output_file = output_file)
 
@@ -159,23 +159,23 @@ def run_util(input_file, task = ''):
 
 if __name__ == '__main__':
 
-    input_file = 'tests/example.csv'
+    input_file = 'examples/example.csv'
     run_cleanup_format(input_file)
 
-    input_file = 'tests/example_format.csv'
+    input_file = 'examples/example_format.csv'
     run_cleanup_SMILES(input_file)
 
-    input_file = 'tests/example_format_CSP.csv'
+    input_file = 'examples/example_format_CSP.csv'
     run_cleanup_duplicates(input_file)
 
-    input_file = 'tests/example_format_CSP_rmDuplicates.csv'
+    input_file = 'examples/example_format_CSP_rmDuplicates.csv'
     run_add_labels(input_file)
 
-    # input_file = 'utils/tests/example_format.csv'
+    # input_file = 'utils/examples/example_format.csv'
     # task = 'value_distribution'
     # run_analysis(input_file, task)
 
-    # input_file = 'utils/tests/test_add_SMILES.csv'
+    # input_file = 'utils/examples/test_add_SMILES.csv'
     # task = 'add_SMILES'
     # run_util(input_file, task)
 

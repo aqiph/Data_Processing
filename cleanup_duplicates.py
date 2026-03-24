@@ -118,7 +118,7 @@ def remove_duplicates(input_file, by_column = ['Cleaned_SMILES'], deduplication_
 
 if __name__ == '__main__':
     
-    input_file = 'tests/example_format_CSP.csv'
+    input_file = 'examples/example_format_CSP.csv'
     by_column = ['Cleaned_SMILES']
     
     remove_duplicates(input_file, by_column, deduplication_method = 'mean',

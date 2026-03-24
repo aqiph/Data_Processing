@@ -218,7 +218,7 @@ def remove_unnamed_columns(df):
 
 
 if __name__ == '__main__':
-    input_file = 'tests/example.csv'
+    input_file = 'examples/example.csv'
     
     df, folder, output_file = read_input(input_file)    
     filename = os.path.join(folder, output_file)
